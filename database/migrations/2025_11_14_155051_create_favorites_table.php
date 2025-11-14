@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
+            $table->unique(['user_id', 'event_id']); // Mencegah user mem-favoritkan event yang sama lebih dari sekali
             $table->timestamps();
         });
     }

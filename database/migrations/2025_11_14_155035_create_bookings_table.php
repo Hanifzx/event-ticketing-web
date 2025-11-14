@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
+            $table->integer('quantity'); // Jumlah tiket yg dibeli
+            $table->decimal('total_price', 10, 2);
+            $table->string('status')->default('pending'); // pending, approved, cancelled
             $table->timestamps();
         });
     }
