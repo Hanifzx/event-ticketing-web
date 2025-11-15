@@ -11,21 +11,27 @@ class HomeController extends Controller
      * Handle the incoming request.
      */
     public function index(Request $request)
-    {
-        // Cek jika user sudah login
-        if (Auth::check()) {
-            $role = Auth::user()->role;
+{
+    if (Auth::check()) {
+        $user = Auth::user();
 
-            // Logika pengalihan berdasarkan role
-            if ($role == 'admin') {
-                return view('dashboard.admin.home');
-            } elseif ($role == 'organizer') {
+        if ($user->role == 'admin') {
+            return view('dashboard.admin.home');
+
+        } elseif ($user->role == 'organizer') {
+
+            if ($user->status == 'approved') {
                 return view('dashboard.organizer.home');
-            } else {
-                return view('dashboard.user.home');
+            } elseif ($user->status == 'pending') {
+                return view('dashboard.organizer.pending'); 
+            } else { // 'rejected'
+                return view('dashboard.organizer.rejected'); 
             }
-        }
 
-        return redirect('/login');
+        } else { // role 'user'
+            return view('dashboard.user.home');
+        }
     }
+    return redirect('/login');
+}
 }
