@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\OrganizerRegistrationController;
 
 Route::view('/', 'welcome');
@@ -22,5 +23,10 @@ Route::get('/dashboard', [HomeController::class, 'index'])
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/users', [UserManagementController::class, 'index'])
+        ->name('admin.users.index');
+});
 
 require __DIR__.'/auth.php';
