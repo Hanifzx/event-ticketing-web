@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-// use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\OrganizerRegistrationController;
 
 Route::view('/', 'welcome');
@@ -23,5 +22,10 @@ Route::get('/dashboard', [HomeController::class, 'index'])
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+Route::middleware(['auth', 'organizer'])->group(function () {
+    Route::view('/organizer/events/create', 'dashboard.organizer.create-event')
+        ->name('organizer.events.create');
+});
 
 require __DIR__.'/auth.php';
