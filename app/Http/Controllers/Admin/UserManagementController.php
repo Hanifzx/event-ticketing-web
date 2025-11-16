@@ -34,6 +34,36 @@ class UserManagementController extends Controller
     }
 
     /**
+     * Menyetujui pendaftaran organizer.
+     */
+    public function approve(User $user)
+    {
+        // hanya bisa approve organizer
+        if ($user->role == 'organizer' && $user->status == 'pending') {
+            $user->update([
+                'status' => 'approved'
+            ]);
+            return redirect()->route('admin.users.index')->with('success', 'Organizer disetujui.');
+        }
+        return redirect()->route('admin.users.index')->with('error', 'Tindakan tidak valid.');
+    }
+
+    /**
+     * Menolak pendaftaran organizer.
+     */
+    public function reject(User $user)
+    {
+        // hanya bisa reject organizer
+        if ($user->role == 'organizer' && $user->status == 'pending') {
+            $user->update([
+                'status' => 'rejected'
+            ]);
+            return redirect()->route('admin.users.index')->with('success', 'Organizer ditolak.');
+        }
+        return redirect()->route('admin.users.index')->with('error', 'Tindakan tidak valid.');
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

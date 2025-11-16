@@ -5,6 +5,19 @@
         </h2>
     </x-slot>
 
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+    </div>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
@@ -32,9 +45,17 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->created_at->format('d M Y') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                            {{-- KITA AKAN BUAT LOGIKA INI DI LANGKAH BERIKUTNYA --}}
-                                            <span class="text-green-600">Approve</span>
-                                            <span class="text-red-600">Reject</span>
+                                            <form action="{{ route('admin.users.approve', $user) }}" method="POST" class="inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-green-600 hover:text-green-900">Approve</button>
+                                            </form>
+
+                                            <form action="{{ route('admin.users.reject', $user) }}" method="POST" class="inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-red-600 hover:text-red-900">Reject</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
@@ -75,14 +96,14 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                                 {{ $user->role == 'admin' ? 'bg-indigo-100 text-indigo-800' : 
-                                                   ($user->role == 'organizer' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800') }}">
+                                                    ($user->role == 'organizer' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800') }}">
                                                 {{ $user->role }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                                 {{ $user->status == 'approved' ? 'bg-green-100 text-green-800' : 
-                                                   ($user->status == 'rejected' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800') }}">
+                                                    ($user->status == 'rejected' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800') }}">
                                                 {{ $user->status }}
                                             </span>
                                         </td>

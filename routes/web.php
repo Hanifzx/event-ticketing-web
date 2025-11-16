@@ -27,6 +27,14 @@ Route::view('profile', 'profile')
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users', [UserManagementController::class, 'index'])
         ->name('admin.users.index');
+
+    // Route untuk Approve
+    Route::patch('/admin/users/{user}/approve', [UserManagementController::class, 'approve'])
+        ->name('admin.users.approve');
+
+    // Route untuk Reject
+    Route::patch('/admin/users/{user}/reject', [UserManagementController::class, 'reject'])
+        ->name('admin.users.reject');
 });
 
 require __DIR__.'/auth.php';

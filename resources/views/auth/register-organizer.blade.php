@@ -38,7 +38,8 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div class="flex flex-col justify-center items-center">
     <h2 class="font-bold text-2xl mb-5">Daftar sebagai event organizer</h2>
-    <form wire:submit="register">
+    <form wire:submit="register" method="POST" action="{{ route('organizer.register') }}">
+        @csrf
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
