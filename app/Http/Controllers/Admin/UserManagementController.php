@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserManagementController extends Controller
 {
@@ -12,7 +13,24 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        //
+        // Ambil organizer yang 'pending'
+        $pendingOrganizers = User::where('role', 'organizer')
+                                    ->where('status', 'pending')
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+
+        // Ambil semua user lain (admin, user biasa, dan organizer yg sudah di-approve/reject)
+        $otherUsers = User::where(function ($query) {
+                                $query->where('role', '!=', 'organizer')
+                                        ->orWhere('status', '!=', 'pending');
+                            })
+                            ->orderBy('name')
+                            ->get();
+
+        return view('dashboard.admin.users', [
+            'pendingOrganizers' => $pendingOrganizers,
+            'otherUsers' => $otherUsers,
+        ]);
     }
 
     /**
