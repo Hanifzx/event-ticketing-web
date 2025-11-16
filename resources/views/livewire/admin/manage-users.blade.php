@@ -1,33 +1,27 @@
-{{-- <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User Management') }}
-        </h2>
-    </x-slot>
-
+<div>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-        @if (session('success'))
+        @if (session()->has('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
-        @if (session('error'))
+        @if (session()->has('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                 <span class="block sm:inline">{{ session('error') }}</span>
             </div>
         @endif
     </div>
-
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-
+    
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-medium text-gray-900">Pending Organizers</h3>
                     <p class="mt-1 text-sm text-gray-600">
                         Akun di bawah ini menunggu persetujuan Anda.
                     </p>
-
+    
                     <div class="mt-4 overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -45,17 +39,8 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->created_at->format('d M Y') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                            <form action="{{ route('admin.users.approve', $user) }}" method="POST" class="inline-block">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="text-green-600 hover:text-green-900">Approve</button>
-                                            </form>
-
-                                            <form action="{{ route('admin.users.reject', $user) }}" method="POST" class="inline-block">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="text-red-600 hover:text-red-900">Reject</button>
-                                            </form>
+                                            <button wire:click="approve({{ $user->id }})" class="text-green-600 hover:text-green-900">Approve</button>
+                                            <button wire:click="reject({{ $user->id }})" class="text-red-600 hover:text-red-900">Reject</button>
                                         </td>
                                     </tr>
                                 @empty
@@ -70,7 +55,7 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-medium text-gray-900">All Registered Users</h3>
@@ -122,4 +107,4 @@
             </div>
         </div>
     </div>
-</x-app-layout> --}}
+</div>
