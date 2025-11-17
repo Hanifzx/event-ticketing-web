@@ -51,6 +51,11 @@ Route::middleware(['auth', 'organizer'])->group(function () {
 
 // Group Rute untuk Atmin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Rute untuk halaman Admin Manage Users
+    Route::view('/users', 'dashboard.admin.users-index')
+        ->name('users.index');
+    
+    // Rute untuk halaman Admin Manage Events
     Route::view('/events', 'dashboard.admin.events-index')
         ->name('events.index');
 });

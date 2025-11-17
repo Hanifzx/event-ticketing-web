@@ -30,18 +30,17 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth
                         @if(Auth::user()->role === 'admin')
                             {{-- Navigasi Admin --}}
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" wire:navigate>
                                 {{ __('Manage Users') }}
                             </x-nav-link>
+
                             <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.index')" wire:navigate>
                                 {{ __('Manage Events') }}
                             </x-nav-link>
