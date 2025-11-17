@@ -18,27 +18,31 @@ class ManageUsers extends Component
 
     public function loadUsers()
     {
+        // [MODIFIKASI] Ambil SEMUA user, urutkan berdasarkan role
         $this->users = User::orderBy('role')->orderBy('name')->get();
     }
 
+    // buat Organizer
     public function approve(User $user)
     {
-        if ($user->role == 'organizer' && $user->status == 'pending') {
+        if ($user->role == 'organizer') {
             $user->update(['status' => 'approved']);
-            $this->loadUsers(); // Ambil ulang data (refresh view)
+            $this->loadUsers();
             session()->flash('success', 'Organizer disetujui.');
         }
     }
 
+    // buat atmin
     public function reject(User $user)
     {
-        if ($user->role == 'organizer' && $user->status == 'pending') {
+        if ($user->role == 'organizer') {
             $user->update(['status' => 'rejected']);
-            $this->loadUsers(); // Ambil ulang data
+            $this->loadUsers();
             session()->flash('success', 'Organizer ditolak.');
         }
     }
 
+    // buat atmin 
     public function promoteToAdmin(User $user)
     {
         if ($user->role == 'user') {
@@ -48,10 +52,8 @@ class ManageUsers extends Component
         }
     }
 
-    /**
-     * Hapus User
-     */
-    public function delete(User $user)
+    // buat atmin
+    public function deleteUser(User $user)
     {
         if ($user->is(Auth::user())) {
             session()->flash('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
@@ -63,7 +65,6 @@ class ManageUsers extends Component
         session()->flash('success', 'Pengguna berhasil dihapus.');
     }
 
-    // Fungsi untuk render view
     public function render()
     {
         return view('livewire.admin.manage-users');
