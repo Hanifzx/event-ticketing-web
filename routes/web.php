@@ -50,16 +50,9 @@ Route::middleware(['auth', 'organizer'])->group(function () {
 });
 
 // Group Rute untuk Atmin
-// Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    
-//     // Rute untuk menampilkan form create user
-//     Route::view('/users/create', 'dashboard.admin.create-user')
-//         ->name('users.create');
-
-//     // Rute untuk menampilkan form edit user
-//     Route::get('/users/{user}/edit', function (User $user) {
-//         return view('dashboard.admin.edit-user', ['user' => $user]);
-//     })->name('users.edit');
-// });
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::view('/events', 'dashboard.admin.events-index')
+        ->name('events.index');
+});
 
 require __DIR__.'/auth.php';
