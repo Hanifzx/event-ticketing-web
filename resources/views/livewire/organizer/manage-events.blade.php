@@ -44,6 +44,9 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $event->date_time }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $event->location }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                            <a href="{{ route('organizer.tickets.index', $event) }}" class="text-green-600 hover:text-green-900 mr-3">
+                                                Tiket
+                                            </a>
                                             <a href="{{ route('organizer.events.edit', $event) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">
                                                 Edit
                                             </a>

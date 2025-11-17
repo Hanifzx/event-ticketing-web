@@ -39,6 +39,13 @@ Route::middleware(['auth', 'organizer'])->group(function () {
         return view('dashboard.organizer.edit-event', ['event' => $event]);
     })->name('organizer.events.edit');
 
+    // Rute untuk halaman 'manajemen tiket'
+    Route::get('/organizer/events/{event}/tickets', function (Event $event) {
+        if ($event->user_id !== Auth::id()) {
+            abort(403);
+        }
+        return view('dashboard.organizer.manage-tickets-page', ['event' => $event]);
+    })->name('organizer.tickets.index');
 });
 
 require __DIR__.'/auth.php';
