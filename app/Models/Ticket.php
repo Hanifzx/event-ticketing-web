@@ -20,7 +20,19 @@ class Ticket extends Model
         'description',
         'price',
         'quota',
+        'max_purchase_per_user',
+        'sale_start_date', 
+        'sale_end_date', 
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'decimal:2',
+            'sale_start_date' => 'datetime',
+            'sale_end_date' => 'datetime',
+        ];
+    }
 
     /**
      * Relasi ke event yang memiliki tiket ini
