@@ -5,17 +5,24 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
+
+        @if (session()->has('error'))
+            <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
     </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-
+            {{-- Tombol Create Event --}}
             <div class="flex justify-end">
                 <a href="{{ route('organizer.events.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     Buat Event Baru
                 </a>
             </div>
-
+            
+            {{-- Daftar Event (Contoh Tabel) --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-medium text-gray-900">Event Anda</h3>
@@ -37,8 +44,14 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $event->date_time }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $event->location }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                            <button class="text-indigo-600 hover:text-indigo-900">Edit</button>
-                                            <button class="text-red-600 hover:text-red-900">Hapus</button>
+                                            <a href="{{ route('organizer.events.edit', $event) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                                Edit
+                                            </a>
+                                            <button wire:click="delete({{ $event->id }})" 
+                                                    wire:confirm="Anda yakin ingin menghapus event '{{ $event->name }}'? Ini tidak bisa dibatalkan."
+                                                    class="text-red-600 hover:text-red-900">
+                                                Hapus
+                                            </button>
                                         </td>
                                     </tr>
                                 @empty

@@ -29,6 +29,21 @@ class ManageEvents extends Component
     }
 
     /**
+     * Fungsi untuk menghapus event
+     */
+    public function delete(Event $event)
+    {
+        if ($event->user_id !== Auth::id()) {
+            session()->flash('error', 'Anda tidak diizinkan menghapus event ini.');
+            return;
+        }
+
+        $event->delete();
+        $this->loadEvents();
+        session()->flash('success', 'Event berhasil dihapus.');
+    }
+
+    /**
      * Tampilkan view
      */
     public function render()

@@ -1,6 +1,6 @@
 <div>
     <form wire:submit="save" class="space-y-6">
-        
+        @csrf
         <div>
             <x-input-label for="name" :value="__('Nama Event')" />
             <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required />
@@ -27,8 +27,14 @@
             <x-input-error :messages="$errors->get('location')" class="mt-2" />
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Simpan Event') }}</x-primary-button>
+        <div class="flex items-center justify-end mt-6">
+            <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">
+                Batal
+            </a>
+            
+            <x-primary-button>
+                {{ $event ? 'Perbarui Event' : 'Simpan Event' }}
+            </x-primary-button>
         </div>
     </form>
 </div>

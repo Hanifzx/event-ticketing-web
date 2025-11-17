@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\OrganizerRegistrationController;
+use App\Models\Event;
 
 Route::view('/', 'welcome');
 
@@ -23,9 +25,20 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+// Grup Rute untuk Organizer
 Route::middleware(['auth', 'organizer'])->group(function () {
+    // Rute untuk halaman 'create'
     Route::view('/organizer/events/create', 'dashboard.organizer.create-event')
         ->name('organizer.events.create');
+
+    // Rute untuk halaman 'edit'
+    Route::get('/organizer/events/{event}/edit', function (Event $event) {
+        if ($event->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized Access');
+        }
+        return view('dashboard.organizer.edit-event', ['event' => $event]);
+    })->name('organizer.events.edit');
+
 });
 
 require __DIR__.'/auth.php';
