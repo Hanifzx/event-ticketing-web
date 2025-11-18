@@ -28,6 +28,9 @@ Route::view('profile', 'profile')
 
 // === GRUP RUTE ORGANIZER ===
 Route::middleware(['auth', 'organizer'])->group(function () {
+    Route::view('/organizer/dashboard', 'organizer.dashboard')
+        ->name('organizer.dashboard');
+
     // Create Event
     Route::view('/organizer/events/create', 'organizer.events.create')
         ->name('organizer.events.create');
@@ -47,6 +50,9 @@ Route::middleware(['auth', 'organizer'])->group(function () {
 
 // === GRUP RUTE ADMIN ===
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::view('/dashboard', 'admin.dashboard') 
+        ->name('dashboard');
+        
     // Manage Users
     Route::view('/users', 'admin.users')
         ->name('users.index');

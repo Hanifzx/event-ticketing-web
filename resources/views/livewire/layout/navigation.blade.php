@@ -47,7 +47,7 @@ new class extends Component
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
-                    {{-- 1. MENU PUBLIC (Bisa dilihat SEMUA ROLE) --}}
+                    {{-- 1. MENU PUBLIC (Home & Events) --}}
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
@@ -56,7 +56,7 @@ new class extends Component
                         {{ __('Browse Events') }}
                     </x-nav-link>
 
-                    {{-- 2. MENU KHUSUS ROLE (Dynamic Link) --}}
+                    {{-- 2. MENU DASHBOARD ROLE --}}
                     @auth
                         <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['dashboard', 'admin.dashboard', 'organizer.dashboard'])" class="font-bold text-indigo-600">
                             {{ $this->getDashboardLabel() }}
@@ -66,6 +66,14 @@ new class extends Component
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                {{-- link Kerja sama --}}
+                @if (!Auth::check() || (Auth::user()->role !== 'admin' && Auth::user()->role !== 'organizer'))
+                    <a href="{{ route('organizer.register') }}" wire:navigate
+                        class="text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none mr-4">
+                        {{ __('Kerjasama Dengan Kami') }}
+                    </a>
+                @endif
+                
                 @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -80,10 +88,6 @@ new class extends Component
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="$this->getDashboardRoute()" wire:navigate>
-                                {{ $this->getDashboardLabel() }}
-                            </x-dropdown-link>
-
                             <x-dropdown-link :href="route('profile')" wire:navigate>
                                 {{ __('Profile') }}
                             </x-dropdown-link>
@@ -96,7 +100,6 @@ new class extends Component
                         </x-slot>
                     </x-dropdown>
                 @else
-                    {{-- Kalau belum login --}}
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 underline" wire:navigate>Log in</a>
                     <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline" wire:navigate>Register</a>
                 @endauth
@@ -115,13 +118,19 @@ new class extends Component
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            {{-- Menu Public Mobile --}}
+            {{-- Menu Public Mobile (Konten) --}}
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
                 {{ __('Browse Events') }}
             </x-responsive-nav-link>
+            
+            @if (!Auth::check() || (Auth::user()->role !== 'admin' && Auth::user()->role !== 'organizer'))
+                <x-responsive-nav-link :href="route('organizer.register')" :active="request()->routeIs('organizer.register')" class="text-blue-600">
+                    {{ __('Kerjasama Dengan Kami') }}
+                </x-responsive-nav-link>
+            @endif
 
             @auth
                 {{-- Menu Role Mobile --}}
