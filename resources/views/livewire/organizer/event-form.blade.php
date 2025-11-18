@@ -27,6 +27,31 @@
             <x-input-error :messages="$errors->get('location')" class="mt-2" />
         </div>
 
+        <div class="mt-4">
+            <x-input-label for="new_image" :value="__('Gambar Event (Cover)')" />
+            <x-text-input wire:model="new_image" id="new_image" class_alias="block mt-1 w-full" type="file" accept="image/*"/>
+            
+            {{-- Loading state saat upload --}}
+            <div wire:loading wire:target="new_image" class="mt-2 text-sm text-gray-500">
+                Mengupload gambar...
+            </div>
+
+            {{-- Preview Gambar --}}
+            @if ($new_image)
+                <div class="mt-2">
+                    <span class="block text-sm font-medium text-gray-700">Preview:</span>
+                    <img src="{{ $new_image->temporaryUrl() }}" class_alias="mt-1 h-32 w-auto object-cover rounded">
+                </div>
+            @elseif ($event && $event->image_path)
+                <div class="mt-2">
+                    <span class="block text-sm font-medium text-gray-700">Gambar Saat Ini:</span>
+                    <img src="{{ asset('storage/' . $event->image_path) }}" class_alias="mt-1 h-32 w-auto object-cover rounded">
+                </div>
+            @endif
+            
+            <x-input-error :messages="$errors->get('new_image')" class_alias="mt-2" />
+        </div>
+
         <div class="flex items-center justify-end mt-6">
             <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">
                 Batal

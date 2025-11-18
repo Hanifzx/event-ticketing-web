@@ -2,13 +2,17 @@
 
 namespace App\Livewire\Organizer;
 
-use Livewire\Component;
-use Livewire\Attributes\Rule;
 use App\Models\Event;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Livewire\Attributes\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventForm extends Component
 {
+    use WithFileUploads;
+
     //Properti untuk menampung event yg diedit (jika ada)
     public ?Event $event = null;
 
@@ -24,6 +28,9 @@ class EventForm extends Component
 
     #[Rule('required|string|max:255')]
     public string $location = '';
+
+    #[Rule('nullable|image|max:2048')]
+    public $new_image;
 
     /**
      * Inisialisasi komponen (mengisi form jika mode edit)
@@ -46,23 +53,31 @@ class EventForm extends Component
     {
         $this->validate();
 
+        $data = [
+            'name' => $this->name,
+            'description' => $this->description,
+            'date_time' => $this->date_time,
+            'location' => $this->location,
+        ];
+
+        if ($this->new_image) {
+            if ($this->event && $this->event->image_path) {
+                Storage::disk('public')->delete($this->event->image_path);
+            }
+
+            $data['image_path'] = $this->new_image->store('event-images', 'public');
+        }
+
         if ($this->event) {
-            $this->event->update([
-                'name' => $this->name,
-                'description' => $this->description,
-                'date_time' => $this->date_time,
-                'location' => $this->location,
-            ]);
+            // Mode Update
+            $this->event->update($data);
             session()->flash('success', 'Event berhasil diperbarui.');
 
         } else {
-            Event::create([
-                'user_id' => Auth::id(),
-                'name' => $this->name,
-                'description' => $this->description,
-                'date_time' => $this->date_time,
-                'location' => $this->location,
-            ]);
+            // Mode Create
+            $data['user_id'] = Auth::id();
+            
+            Event::create($data);
             session()->flash('success', 'Event berhasil dibuat.');
         }
 
