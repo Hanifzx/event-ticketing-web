@@ -5,19 +5,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\OrganizerRegistrationController;
 use App\Models\Event;
-use App\Models\User;
 
 Route::view('/', 'welcome');
 
-// Menampilkan halaman form registrasi organizer
+// Organizer Registration
 Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
         ->middleware('guest')
         ->name('organizer.register');
-
-// Proses registrasi organizer
 Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store'])
         ->middleware('guest');
 
+// DASHBOARD
 Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -26,41 +24,36 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-// Grup Rute untuk Organizer
+// === GRUP RUTE ORGANIZER ===
 Route::middleware(['auth', 'organizer'])->group(function () {
-    // Rute untuk halaman 'create'
-    Route::view('/organizer/events/create', 'dashboard.organizer.create-event')
+    // Create Event
+    Route::view('/organizer/events/create', 'organizer.events.create')
         ->name('organizer.events.create');
 
-    // Rute untuk halaman 'edit'
+    // Edit Event
     Route::get('/organizer/events/{event}/edit', function (Event $event) {
-        if ($event->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized Access');
-        }
-        return view('dashboard.organizer.edit-event', ['event' => $event]);
+        if ($event->user_id !== Auth::id()) abort(403);
+        return view('organizer.events.edit', ['event' => $event]);
     })->name('organizer.events.edit');
 
-    // Rute untuk halaman 'manajemen tiket'
+    // Manage Tickets
     Route::get('/organizer/events/{event}/tickets', function (Event $event) {
-        if ($event->user_id !== Auth::id()) {
-            abort(403);
-        }
-        return view('dashboard.organizer.manage-tickets-page', ['event' => $event]);
+        if ($event->user_id !== Auth::id()) abort(403);
+        return view('organizer.events.tickets', ['event' => $event]);
     })->name('organizer.tickets.index');
 });
 
-// Group Rute untuk Atmin
+// === GRUP RUTE ADMIN ===
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Rute untuk halaman Admin Manage Users
-    Route::view('/users', 'dashboard.admin.users-index')
+    // Manage Users
+    Route::view('/users', 'admin.users')
         ->name('users.index');
     
-    // Rute untuk halaman Admin Manage Events
-    Route::view('/events', 'dashboard.admin.events-index')
+    // Manage Events
+    Route::view('/events', 'admin.events')
         ->name('events.index');
 });
 
-// Rute publik/guest
 Route::get('/event/{event}', function (Event $event) {
     return 'Halaman detail untuk: ' . $event->name; 
 })->name('event.show');

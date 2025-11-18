@@ -81,7 +81,7 @@ class EventForm extends Component
             session()->flash('success', 'Event berhasil dibuat.');
         }
 
-        return $this->redirect(route('dashboard'), navigate: true);
+        return $this->redirect(route('dashboard'));
     }
 
     public function render()
