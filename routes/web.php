@@ -6,7 +6,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\OrganizerRegistrationController;
 use App\Models\Event;
 
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
 // Organizer Registration
 Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
@@ -58,4 +60,7 @@ Route::get('/event/{event}', function (Event $event) {
     return view('events.show', ['event' => $event]); 
 })->name('event.show');
 
+Route::get('/events', function () {
+    return view('events.index'); 
+})->name('events.index');
 require __DIR__.'/auth.php';
