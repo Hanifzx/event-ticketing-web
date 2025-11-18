@@ -55,7 +55,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::get('/event/{event}', function (Event $event) {
-    return 'Halaman detail untuk: ' . $event->name; 
+    return view('events.show', ['event' => $event]); 
 })->name('event.show');
 
 require __DIR__.'/auth.php';
