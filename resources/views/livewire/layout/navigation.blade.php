@@ -1,5 +1,4 @@
 <?php
-
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +18,7 @@ new class extends Component
         return match (Auth::user()->role) {
             'admin' => route('admin.dashboard'),
             'organizer' => route('organizer.dashboard'),
-            default => route('dashboard'), 
+            default => null, 
         };
     }
 
@@ -30,7 +29,7 @@ new class extends Component
         return match (Auth::user()->role) {
             'admin' => 'Admin Panel',
             'organizer' => 'Organizer Center',
-            default => 'My Dashboard',
+            default => null,
         };
     }
 }; ?>
@@ -38,6 +37,7 @@ new class extends Component
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
+            {{-- === BAGIAN KIRI (LOGO DAN MAIN NAV DESKTOP) === --}}
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}" wire:navigate>
@@ -47,7 +47,7 @@ new class extends Component
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
-                    {{-- 1. MENU PUBLIC (Home & Events) --}}
+                    {{-- [Public Links] --}}
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
@@ -56,7 +56,7 @@ new class extends Component
                         {{ __('Browse Events') }}
                     </x-nav-link>
 
-                    {{-- 2. MENU DASHBOARD ROLE --}}
+                    {{-- [Dynamic Dashboard Link] --}}
                     @auth
                         <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['dashboard', 'admin.dashboard', 'organizer.dashboard'])" class="font-bold text-indigo-600">
                             {{ $this->getDashboardLabel() }}
@@ -65,8 +65,10 @@ new class extends Component
                 </div>
             </div>
 
+            {{-- === BAGIAN KANAN (SETTINGS & LOGIN DESKTOP) === --}}
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                {{-- link Kerja sama --}}
+                
+                {{-- [Kerjasama Dengan Kami] Hanya untuk Guest/User --}}
                 @if (!Auth::check() || (Auth::user()->role !== 'admin' && Auth::user()->role !== 'organizer'))
                     <a href="{{ route('organizer.register') }}" wire:navigate
                         class="text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none mr-4">
@@ -75,6 +77,7 @@ new class extends Component
                 @endif
                 
                 @auth
+                    {{-- [Dropdown Profile] Hanya Profile dan Logout --}}
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -100,11 +103,13 @@ new class extends Component
                         </x-slot>
                     </x-dropdown>
                 @else
+                    {{-- [Guest Links] Login/Register --}}
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 underline" wire:navigate>Log in</a>
                     <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline" wire:navigate>Register</a>
                 @endauth
             </div>
 
+            {{-- [Hamburger Icon] --}}
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -116,9 +121,13 @@ new class extends Component
         </div>
     </div>
 
+    {{-- === RESPONSIVE NAVIGATION MENU (MOBILE: sm:hidden) === --}}
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        
+        {{-- [A. Menu Konten Utama Mobile] --}}
         <div class="pt-2 pb-3 space-y-1">
-            {{-- Menu Public Mobile (Konten) --}}
+            
+            {{-- Public Links --}}
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
@@ -126,20 +135,22 @@ new class extends Component
                 {{ __('Browse Events') }}
             </x-responsive-nav-link>
             
+            {{-- Kerjasama Dengan Kami (Filtered) --}}
             @if (!Auth::check() || (Auth::user()->role !== 'admin' && Auth::user()->role !== 'organizer'))
                 <x-responsive-nav-link :href="route('organizer.register')" :active="request()->routeIs('organizer.register')" class="text-blue-600">
                     {{ __('Kerjasama Dengan Kami') }}
                 </x-responsive-nav-link>
             @endif
 
+            {{-- Dynamic Dashboard Link --}}
             @auth
-                {{-- Menu Role Mobile --}}
                 <x-responsive-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['dashboard', 'admin.dashboard', 'organizer.dashboard'])" class="text-indigo-600 font-semibold">
                     {{ $this->getDashboardLabel() }}
                 </x-responsive-nav-link>
             @endauth
         </div>
 
+        {{-- [B. Menu Pengaturan Akun Mobile] --}}
         @auth
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
