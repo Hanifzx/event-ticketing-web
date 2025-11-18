@@ -60,4 +60,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->name('events.index');
 });
 
+// Rute publik/guest
+Route::get('/event/{event}', function (Event $event) {
+    return 'Halaman detail untuk: ' . $event->name; 
+})->name('event.show');
+
 require __DIR__.'/auth.php';
