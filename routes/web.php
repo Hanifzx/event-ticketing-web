@@ -12,10 +12,11 @@ Route::get('/', function () {
 
 // Organizer Registration
 Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
-        // ->middleware('guest')
         ->name('organizer.register');
 // Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store'])
 //         ->middleware('guest');
+
+Route::view('/organizer/pending', 'organizer.pending')->name('organizer.pending');
 
 // DASHBOARD
 Route::get('/dashboard', [HomeController::class, 'index'])

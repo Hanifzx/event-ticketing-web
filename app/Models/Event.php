@@ -21,6 +21,7 @@ class Event extends Model
         'date_time',
         'location',
         'image_path',
+        'category',
     ];
 
     /**

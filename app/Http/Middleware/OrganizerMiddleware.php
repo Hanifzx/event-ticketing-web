@@ -16,9 +16,16 @@ class OrganizerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role == 'organizer' && Auth::user()->status == 'approved') {
-            return $next($request); 
+        $user = Auth::user();
+
+    if ($user && $user->role === 'organizer') {
+        if ($user->status === 'approved') {
+            return $next($request);
         }
+        if ($user->status === 'pending') {
+            return redirect()->route('organizer.pending');
+        }
+    }
 
         return redirect(route('dashboard'));
     }

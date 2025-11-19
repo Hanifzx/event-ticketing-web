@@ -15,6 +15,22 @@
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
 
+        <div class="mt-4">
+            <x-input-label for="category" :value="__('Category')" />
+            <select wire:model="category" id="category" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                <option value="">-- Select Category --</option>
+                <option value="Music">Music</option>
+                <option value="Arts">Arts & Culture</option>
+                <option value="Sports">Sports</option>
+                <option value="Food">Food & Drink</option>
+                <option value="Business">Business</option>
+                <option value="Technology">Technology</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <x-input-error :messages="$errors->get('category')" class="mt-2" />
+        </div>
+
         <div>
             <x-input-label for="date_time" :value="__('Tanggal & Waktu')" />
             <x-text-input wire:model="date_time" id="date_time" class="block mt-1 w-full" type="datetime-local" name="date_time" required />

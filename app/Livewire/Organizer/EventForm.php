@@ -32,6 +32,9 @@ class EventForm extends Component
     #[Rule('nullable|image|max:2048')]
     public $new_image;
 
+    #[Rule('required|string|in:Music,Arts,Sports,Food,Business,Technology,Other')]
+    public string $category = ''; 
+
     /**
      * Inisialisasi komponen (mengisi form jika mode edit)
      */
@@ -43,6 +46,7 @@ class EventForm extends Component
             $this->description = $event->description;
             $this->date_time = \Carbon\Carbon::parse($event->date_time)->format('Y-m-d\TH:i'); 
             $this->location = $event->location;
+            $this->category = $event->category;
         }
     }
 
@@ -58,6 +62,7 @@ class EventForm extends Component
             'description' => $this->description,
             'date_time' => $this->date_time,
             'location' => $this->location,
+            'category' => $this->category,
         ];
 
         if ($this->new_image) {
@@ -69,16 +74,17 @@ class EventForm extends Component
         }
 
         if ($this->event) {
-            // Mode Update
+            // Mode Edit
             $this->event->update($data);
-            session()->flash('success', 'Event berhasil diperbarui.');
-
+            session()->flash('success', 'Event diperbarui.');
+            return $this->redirect(route('dashboard'));
         } else {
             // Mode Create
             $data['user_id'] = Auth::id();
+            $event = Event::create($data);
             
-            Event::create($data);
-            session()->flash('success', 'Event berhasil dibuat.');
+            session()->flash('success', 'Event dibuat! Silakan tambah tiket.');
+            return redirect()->route('organizer.tickets.index', $event);
         }
 
         return $this->redirect(route('dashboard'));
