@@ -18,7 +18,7 @@ class EventDetail extends Component
     {
         $tickets = $this->event->tickets;
 
-        return view('livewire.event-detail', [
+        return view('livewire.public.events.detail', [
             'tickets' => $tickets
         ]);
     }

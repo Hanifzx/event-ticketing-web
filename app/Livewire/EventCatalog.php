@@ -29,7 +29,7 @@ class EventCatalog extends Component
 
         $events = $query->get();
 
-        return view('livewire.event-catalog', [
+        return view('livewire.public.events.catalog', [
             'events' => $events
         ]);
     }

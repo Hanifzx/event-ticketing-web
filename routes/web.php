@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/events', function () {
+Route::get('/events/explore', function () {
     return view('events.explore'); 
-})->name('events.index');
+})->name('events.explore');
 
 Route::get('/event/{event}', function (Event $event) {
     return view('events.show', ['event' => $event]); 

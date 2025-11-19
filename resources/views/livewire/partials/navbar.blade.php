@@ -52,8 +52,8 @@ new class extends Component
                         {{ __('Home') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
-                        {{ __('Browse Events') }}
+                    <x-nav-link :href="route('events.explore')" :active="request()->routeIs('events.explore')">
+                        {{ __('Explore Events') }}
                     </x-nav-link>
 
                     {{-- [Dynamic Dashboard Link] --}}
@@ -107,8 +107,8 @@ new class extends Component
                     </x-dropdown>
                 @else
                     {{-- [Guest Links] Login/Register --}}
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 underline" wire:navigate>Log in</a>
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline" wire:navigate>Register</a>
+                    <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
                 @endauth
             </div>
 
@@ -134,8 +134,8 @@ new class extends Component
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
-                {{ __('Browse Events') }}
+            <x-responsive-nav-link :href="route('events.explore')" :active="request()->routeIs('events.explore')">
+                {{ __('Explore Events') }}
             </x-responsive-nav-link>
             
             {{-- Kerjasama Dengan Kami (Filtered) --}}
@@ -175,10 +175,10 @@ new class extends Component
         </div>
         @else
         <div class="pt-4 pb-1 border-t border-gray-200">
-             <x-responsive-nav-link :href="route('login')" wire:navigate>
+            <x-responsive-nav-link :href="route('login')">
                 {{ __('Log in') }}
             </x-responsive-nav-link>
-             <x-responsive-nav-link :href="route('register')" wire:navigate>
+            <x-responsive-nav-link :href="route('register')">
                 {{ __('Register') }}
             </x-responsive-nav-link>
         </div>
