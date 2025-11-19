@@ -1,24 +1,42 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Auth\OrganizerRegistrationController;
 use App\Models\Event;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrganizerController;
+use App\Http\Controllers\Auth\OrganizerRegistrationController;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC ROUTES (Bisa diakses siapa saja)
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('/events', function () {
+    return view('events.explore'); 
+})->name('events.index');
+
+Route::get('/event/{event}', function (Event $event) {
+    return view('events.show', ['event' => $event]); 
+})->name('event.show');
+
 // Organizer Registration
 Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
         ->name('organizer.register');
-// Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store'])
-//         ->middleware('guest');
+Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store']);
 
-Route::view('/organizer/pending', 'organizer.pending')->name('organizer.pending');
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATED ROUTES (Harus Login)
+|--------------------------------------------------------------------------
+*/
 
-// DASHBOARD
+// Pintu Masuk Utama (Redirect Logic)
 Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -27,48 +45,35 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-// === GRUP RUTE ORGANIZER ===
-Route::middleware(['auth', 'organizer'])->group(function () {
-    Route::view('/organizer/dashboard', 'organizer.dashboard')
-        ->name('organizer.dashboard');
-
-    // Create Event
-    Route::view('/organizer/events/create', 'organizer.events.create')
-        ->name('organizer.events.create');
-
-    // Edit Event
-    Route::get('/organizer/events/{event}/edit', function (Event $event) {
-        if ($event->user_id !== Auth::id()) abort(403);
-        return view('organizer.events.edit', ['event' => $event]);
-    })->name('organizer.events.edit');
-
-    // Manage Tickets
-    Route::get('/organizer/events/{event}/tickets', function (Event $event) {
-        if ($event->user_id !== Auth::id()) abort(403);
-        return view('organizer.events.tickets', ['event' => $event]);
-    })->name('organizer.tickets.index');
-});
-
-// === GRUP RUTE ADMIN ===
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('/dashboard', 'admin.dashboard') 
-        ->name('dashboard');
-        
-    // Manage Users
-    Route::view('/users', 'admin.users')
-        ->name('users.index');
+/*
+|--------------------------------------------------------------------------
+| ORGANIZER ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'organizer'])->prefix('organizer')->name('organizer.')->group(function () {
     
-    // Manage Events
-    Route::view('/events', 'admin.events')
-        ->name('events.index');
+    // Halaman Status (Isolated Pages)
+    Route::get('/pending', [OrganizerController::class, 'pending'])->name('pending');
+    Route::get('/rejected', [OrganizerController::class, 'rejected'])->name('rejected');
+
+    // Halaman Utama (Hanya bisa diakses jika Approved karena dijaga Middleware)
+    Route::get('/dashboard', [OrganizerController::class, 'dashboard'])->name('dashboard');
+    
+    // Event Management
+    Route::get('/events/create', [OrganizerController::class, 'createEvent'])->name('events.create');
+    Route::get('/events/{event}/edit', [OrganizerController::class, 'editEvent'])->name('events.edit');
+    Route::get('/events/{event}/tickets', [OrganizerController::class, 'manageTickets'])->name('tickets.index');
 });
 
-Route::get('/event/{event}', function (Event $event) {
-    return view('events.show', ['event' => $event]); 
-})->name('event.show');
-
-Route::get('/events', function () {
-    return view('events.explore'); 
-})->name('events.index');
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+    Route::get('/events', [AdminController::class, 'events'])->name('events.index');
+});
 
 require __DIR__.'/auth.php';

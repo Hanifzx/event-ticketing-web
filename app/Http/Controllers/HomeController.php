@@ -15,16 +15,16 @@ class HomeController extends Controller
         $role = Auth::user()->role;
 
         if ($role === 'admin') {
-            return view('admin.dashboard');
+            return redirect()->route('admin.dashboard');
         } 
         
         if ($role === 'organizer') {
             if (Auth::user()->status === 'pending') {
-                return view('organizer.pending');
+                return redirect()->route('organizer.pending');
             }
-            return view('organizer.dashboard'); 
+            return redirect()->route('organizer.dashboard');
         } 
 
-        return view('welcome');
+        return redirect()->route('home');
     }
 }
