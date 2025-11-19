@@ -58,9 +58,12 @@ new class extends Component
 
                     {{-- [Dynamic Dashboard Link] --}}
                     @auth
-                        <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['dashboard', 'admin.dashboard', 'organizer.dashboard'])" class="font-bold text-indigo-600">
-                            {{ $this->getDashboardLabel() }}
-                        </x-nav-link>
+                        @if(Auth::user()->role === 'admin' || Auth::user()->role === 'organizer')
+                            <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['admin.dashboard', 'organizer.dashboard'])"
+                                class="bg-red-900 font-bold text-indigo-600">
+                                {{ $this->getDashboardLabel() }}
+                            </x-nav-link>
+                        @endif
                     @endauth
                 </div>
             </div>

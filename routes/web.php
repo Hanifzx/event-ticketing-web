@@ -12,10 +12,10 @@ Route::get('/', function () {
 
 // Organizer Registration
 Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
-        ->middleware('guest')
+        // ->middleware('guest')
         ->name('organizer.register');
-Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store'])
-        ->middleware('guest');
+// Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store'])
+//         ->middleware('guest');
 
 // DASHBOARD
 Route::get('/dashboard', [HomeController::class, 'index'])

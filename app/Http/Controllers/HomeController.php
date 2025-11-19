@@ -16,13 +16,15 @@ class HomeController extends Controller
 
         if ($role === 'admin') {
             return view('admin.dashboard');
-        } elseif ($role === 'organizer') {
+        } 
+        
+        if ($role === 'organizer') {
             if (Auth::user()->status === 'pending') {
                 return view('organizer.pending');
             }
             return view('organizer.dashboard'); 
-        } else {
-            return view('user.dashboard');
-        }
+        } 
+
+        return view('welcome');
     }
 }
