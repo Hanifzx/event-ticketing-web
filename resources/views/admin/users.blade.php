@@ -1,11 +1,3 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('INI BUAT KELOLA USER') }}
-        </h2>
-    </x-slot>
-
-    <div>
-        @livewire('admin.manage-users')
-    </div>
-</x-app-layout>
+<x-admin-layout title="Manage Users">
+    <livewire:admin.manage-users />
+</x-admin-layout>
