@@ -67,6 +67,7 @@ Route::get('/event/{event}', function (Event $event) {
 })->name('event.show');
 
 Route::get('/events', function () {
-    return view('events.index'); 
+    return view('events.explore'); 
 })->name('events.index');
+
 require __DIR__.'/auth.php';
