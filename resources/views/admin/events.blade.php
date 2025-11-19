@@ -1,3 +1,3 @@
-<x-admin-layout title="Manage Events">
+<x-dashboard-layout title="Manage Events">
     <livewire:admin.manage-events />
-</x-admin-layout>
+</x-dashboard-layout>

@@ -1,24 +1,12 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Kelola Tiket untuk: <span class="font-bold">{{ $event->name }}</span>
-        </h2>
-    </x-slot>
+<x-dashboard-layout title="Manage Tickets">
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800">Manajemen Tiket</h2>
+        <p class="text-sm text-gray-600">Atur jenis dan harga tiket untuk event: <strong>{{ $event->title }}</strong></p>
+    </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
-            <div class="mb-4">
-                <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 hover:text-gray-900">
-                    &larr; Kembali ke Daftar Event
-                </a>
-            </div>
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    @livewire('organizer.manage-tickets', ['event' => $event])
-                </div>
-            </div>
+    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6">
+            @livewire('organizer.manage-tickets', ['event' => $event])
         </div>
     </div>
-</x-app-layout>
+</x-dashboard-layout>

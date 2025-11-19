@@ -1,17 +1,9 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Buat Event Baru') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    @livewire('organizer.event-form')
-                </div>
-            </div>
+<x-dashboard-layout title="Create New Event">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Buat Event Baru</h2>
+            <p class="text-sm text-gray-600">Isi detail di bawah ini untuk mempublikasikan event Anda.</p>
         </div>
+        @livewire('organizer.event-form')
     </div>
-</x-app-layout>
+</x-dashboard-layout>

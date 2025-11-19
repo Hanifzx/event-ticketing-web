@@ -60,7 +60,7 @@ new class extends Component
                     @auth
                         @if(Auth::user()->role === 'admin' || Auth::user()->role === 'organizer')
                             <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['admin.dashboard', 'organizer.dashboard'])"
-                                class="bg-red-900 font-bold text-indigo-600">
+                                class="font-bold text-indigo-600">
                                 {{ $this->getDashboardLabel() }}
                             </x-nav-link>
                         @endif

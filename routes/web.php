@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Event;
+use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\Auth\OrganizerRegistrationController;
 
@@ -41,7 +43,7 @@ Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Route::get('/profile', [ProfileController::class, 'edit'])
     ->middleware(['auth'])
     ->name('profile');
 
