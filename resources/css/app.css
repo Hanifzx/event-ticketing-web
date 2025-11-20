@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+}
+
+.bg-deep-blue {
+    background-color: #172a39;
+}
+
+.bg-beige {
+    background-color: #efede9;
+}
+
+.bg-oranye {
+    background-color: #fc563c;
+}
+
+.border-oranye {
+    border-color: #fc563c;
+}
+
+.border-deep-blue {
+    border-color: #172a39;
+}
+
+.hover\:border-oranye:hover {
+    border-color: #fc563c;
+}
+
+.text-oranye {
+    color: #fc563c;
+}
+
+.text-deep-blue {
+    color: #172a39;
+}
+
+.text-beige {
+    color: #EEE5DA;
+}
+
+.hover\:text-beige:hover {
+    color: #EEE5DA;
+}
+
+.font-museomoderno {
+    font-family: "MuseoModerno", sans-serif;
+    font-optical-sizing: auto;
+}
+
+.search-icon {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}

@@ -2,6 +2,7 @@
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Url;
 
 new class extends Component
 {
@@ -34,18 +35,18 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 sticky top-0 z-50">
+<nav x-data="{ open: false }" class="bg-beige sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             {{-- === BAGIAN KIRI (LOGO DAN MAIN NAV DESKTOP) === --}}
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block w-auto font-bold text-2xl" />
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-4 md:space-x-6 lg:space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
                     {{-- [Public Links] --}}
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
@@ -53,29 +54,41 @@ new class extends Component
                     </x-nav-link>
 
                     <x-nav-link :href="route('events.explore')" :active="request()->routeIs('events.explore')">
-                        {{ __('Explore Events') }}
+                        {{ __('Explore') }}
                     </x-nav-link>
 
-                    {{-- [Dynamic Dashboard Link] --}}
-                    @auth
-                        @if(Auth::user()->role === 'admin' || Auth::user()->role === 'organizer')
-                            <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['admin.dashboard', 'organizer.dashboard'])"
-                                class="font-bold text-indigo-600">
-                                {{ $this->getDashboardLabel() }}
-                            </x-nav-link>
-                        @endif
-                    @endauth
+                    {{-- Search Bar --}}
+                    <input 
+                        wire:model.live.debounce.300ms="search" 
+                        type="text" 
+                        placeholder="Cari Event" 
+                        class="w-full max-w-3xl px-4 py-1 my-3 bg-beige border border-deep-blue rounded-full shadow-smp placeholder:text-sm focus:outline-none focus:ring-gray-900 focus:border-gray-900"
+                    >
+
                 </div>
             </div>
 
             {{-- === BAGIAN KANAN (SETTINGS & LOGIN DESKTOP) === --}}
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                
+                {{-- [Dynamic Dashboard Link] --}}
+                @auth
+                    @if(Auth::user()->role === 'admin' || Auth::user()->role === 'organizer')
+                        <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['admin.dashboard', 'organizer.dashboard'])"
+                            class="font-bold text-indigo-600">
+                            {{ $this->getDashboardLabel() }}
+                        </x-nav-link>
+                    @endif
+                @endauth
+
                 {{-- [Kerjasama Dengan Kami] Hanya untuk Guest/User --}}
                 @if (!Auth::check() || (Auth::user()->role !== 'admin' && Auth::user()->role !== 'organizer'))
                     <a href="{{ route('organizer.register') }}" wire:navigate
-                        class="text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none mr-4">
+                        class="hidden lg:block text-sm font-semibold text-oranye border border-transparent transition duration-150 ease-in-out hover:border-oranye focus:outline-none px-3 py-1 md:mr-2 lg:mr-3">
                         {{ __('Kerjasama Dengan Kami') }}
+                    </a>
+                    <a href="{{ route('organizer.register') }}" wire:navigate
+                        class="hidden md:block lg:hidden text-sm font-semibold text-oranye border border-transparent transition duration-150 ease-in-out hover:border-oranye focus:outline-none px-3 py-1 md:mr-2 lg:mr-3">
+                        {{ __('Kontak Kami') }}
                     </a>
                 @endif
                 
@@ -83,13 +96,14 @@ new class extends Component
                     {{-- [Dropdown Profile] Hanya Profile dan Logout --}}
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-                                <div class="ms-1">
+                            <button class="inline-flex items-center px-2 py-1 border border-transparent leading-4 font-medium hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                <div class="font-semibold text-deep-blue text-sm lg:text-sm mr-1" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
+                                {{-- <div class="ms-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
-                                </div>
+                                </div> --}}
+                                <svg class="ml-1 fill-[#172a39] w-5 h-5 lg:w-6 lg:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 248a120 120 0 1 0 0-240 120 120 0 1 0 0 240zm-29.7 56C95.8 304 16 383.8 16 482.3 16 498.7 29.3 512 45.7 512l356.6 0c16.4 0 29.7-13.3 29.7-29.7 0-98.5-79.8-178.3-178.3-178.3l-59.4 0z"/></svg>
                             </button>
                         </x-slot>
 
@@ -107,14 +121,18 @@ new class extends Component
                     </x-dropdown>
                 @else
                     {{-- [Guest Links] Login/Register --}}
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                    <a href="{{ route('login') }}"class="text-sm font-semibold text-oranye border border-oranye  px-3 py-1">
+                        Log in
+                    </a>
+                    <a href="{{ route('register') }}" class="ml-3 text-sm font-semibold text-beige bg-oranye border border-oranye  px-3 py-1">
+                        Register
+                    </a>
                 @endauth
             </div>
 
             {{-- [Hamburger Icon] --}}
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-[#172a39]/80 hover:text-[#172a39] focus:outline-none transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -156,10 +174,10 @@ new class extends Component
         {{-- [B. Menu Pengaturan Akun Mobile] --}}
         @auth
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
+            {{-- <div class="px-4">
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
-            </div>
+            </div> --}}
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
@@ -183,5 +201,14 @@ new class extends Component
             </x-responsive-nav-link>
         </div>
         @endauth
+    </div>
+    {{-- Search Bar Mobile --}}
+    <div class="block sm:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+        <input 
+            wire:model.live.debounce.300ms="search" 
+            type="text" 
+            placeholder="Cari Event" 
+            class="w-full max-w-3xl px-4 py-1 bg-beige border border-deep-blue rounded-full shadow-smp placeholder:text-sm focus:outline-none focus:ring-gray-900 focus:border-gray-900"
+        >
     </div>
 </nav>
