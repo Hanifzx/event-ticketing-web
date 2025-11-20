@@ -4,9 +4,10 @@ namespace App\Livewire;
 
 use App\Models\Event;
 use Livewire\Component;
-
+use Livewire\Attributes\Url;
 class EventCatalog extends Component
 {
+    #[Url]
     public $search = '';
 
     public function render()

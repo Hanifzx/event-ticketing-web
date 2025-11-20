@@ -6,6 +6,18 @@ use Livewire\Attributes\Url;
 
 new class extends Component
 {
+    public string $search = '';
+
+    public function mount(): void
+    {
+        $this->search = request()->query('search', '');
+    }
+
+    public function searchEvents(): void
+    {
+        $this->redirect(route('events.explore', ['search' => $this->search]), navigate: false);
+    }
+
     public function logout(Logout $logout): void
     {
         $logout();
@@ -59,7 +71,8 @@ new class extends Component
 
                     {{-- Search Bar --}}
                     <input 
-                        wire:model.live.debounce.300ms="search" 
+                        wire:model="search" 
+                        wire:keydown.enter="searchEvents"
                         type="text" 
                         placeholder="Cari Event" 
                         class="w-full max-w-3xl px-4 py-1 my-3 bg-beige border border-deep-blue rounded-full shadow-smp placeholder:text-sm focus:outline-none focus:ring-gray-900 focus:border-gray-900"
@@ -205,7 +218,8 @@ new class extends Component
     {{-- Search Bar Mobile --}}
     <div class="block sm:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
         <input 
-            wire:model.live.debounce.300ms="search" 
+            wire:model="search" 
+            wire:keydown.enter="searchEvents"
             type="text" 
             placeholder="Cari Event" 
             class="w-full max-w-3xl px-4 py-1 bg-beige border border-deep-blue rounded-full shadow-smp placeholder:text-sm focus:outline-none focus:ring-gray-900 focus:border-gray-900"
