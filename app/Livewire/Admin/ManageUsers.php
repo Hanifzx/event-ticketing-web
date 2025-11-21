@@ -5,63 +5,55 @@ namespace App\Livewire\Admin;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Admin\UserService; 
 
 class ManageUsers extends Component
 {
     public $users;
 
-    // mengambil data saat komponen pertama kali dimuat
-    public function mount()
+    public function mount(UserService $service)
     {
-        $this->loadUsers();
+        $this->loadUsers($service);
     }
 
-    public function loadUsers()
+    public function loadUsers(UserService $service)
     {
-        // [MODIFIKASI] Ambil SEMUA user, urutkan berdasarkan role
-        $this->users = User::orderBy('role')->orderBy('name')->get();
+        $this->users = $service->getAllUsers();
     }
 
-    // buat Organizer
-    public function approve(User $user)
+    public function approve(User $user, UserService $service)
     {
-        if ($user->role == 'organizer') {
-            $user->update(['status' => 'approved']);
-            $this->loadUsers();
+        if ($service->updateOrganizerStatus($user, 'approved')) {
             session()->flash('success', 'Organizer disetujui.');
         }
+        $this->loadUsers($service);
     }
 
-    // buat atmin
-    public function reject(User $user)
+    public function reject(User $user, UserService $service)
     {
-        if ($user->role == 'organizer') {
-            $user->update(['status' => 'rejected']);
-            $this->loadUsers();
+        if ($service->updateOrganizerStatus($user, 'rejected')) {
             session()->flash('success', 'Organizer ditolak.');
         }
+        $this->loadUsers($service);
     }
 
-    // buat atmin 
-    public function promoteToAdmin(User $user)
+    public function promoteToAdmin(User $user, UserService $service)
     {
-        if ($user->role == 'user') {
-            $user->update(['role' => 'admin', 'status' => 'active']);
-            $this->loadUsers();
+        if ($service->promoteToAdmin($user)) {
             session()->flash('success', $user->name . ' telah dipromosikan menjadi Admin.');
         }
+        $this->loadUsers($service);
     }
 
-    // buat atmin
-    public function deleteUser(User $user)
+    public function deleteUser(User $user, UserService $service)
     {
         if ($user->is(Auth::user())) {
             session()->flash('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
             return;
         }
 
-        $user->delete();
-        $this->loadUsers();
+        $service->deleteUser($user);
+        $this->loadUsers($service);
         session()->flash('success', 'Pengguna berhasil dihapus.');
     }
 

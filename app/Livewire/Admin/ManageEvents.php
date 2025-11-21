@@ -4,33 +4,29 @@ namespace App\Livewire\Admin;
 
 use App\Models\Event;
 use Livewire\Component;
+use App\Services\Admin\EventService;
 
 class ManageEvents extends Component
 {
     public $events;
 
-    public function mount()
+    public function mount(EventService $service)
     {
-        $this->loadEvents();
+        $this->loadEvents($service);
     }
 
-    /**
-     * Ambil SEMUA event (aku atmin kau member😁)
-     */
-    public function loadEvents()
+    public function loadEvents(EventService $service)
     {
-        $this->events = Event::with('user')
-                                ->orderBy('date_time', 'desc')
-                                ->get();
+        // Mengambil data via Service
+        $this->events = $service->getAllEvents();
     }
 
-    /**
-     * Admin bisa menghapus event siapa saja.
-     */
-    public function delete(Event $event)
+    public function delete(Event $event, EventService $service)
     {
-        $event->delete();
-        $this->loadEvents();
+        // Delegate logika penghapusan ke Service
+        $service->deleteEvent($event);
+        
+        $this->loadEvents($service);
         session()->flash('success', 'Event berhasil dihapus.');
     }
 

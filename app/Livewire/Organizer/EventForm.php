@@ -6,17 +6,14 @@ use App\Models\Event;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Rule;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use App\Services\Organizer\EventService;
 
 class EventForm extends Component
 {
     use WithFileUploads;
 
-    //Properti untuk menampung event yg diedit (jika ada)
     public ?Event $event = null;
 
-     // Properti untuk menampung data form
     #[Rule('required|string|min:5|max:255')]
     public string $name = '';
 
@@ -33,27 +30,21 @@ class EventForm extends Component
     public $new_image;
 
     #[Rule('required|string|in:Music,Arts,Sports,Food,Business,Technology,Other')]
-    public string $category = ''; 
+    public string $category = '';
 
-    /**
-     * Inisialisasi komponen (mengisi form jika mode edit)
-     */
     public function mount(?Event $event = null)
     {
-        if ($event->exists) {
+        if ($event && $event->exists) {
             $this->event = $event;
             $this->name = $event->name;
             $this->description = $event->description;
-            $this->date_time = \Carbon\Carbon::parse($event->date_time)->format('Y-m-d\TH:i'); 
+            $this->date_time = \Carbon\Carbon::parse($event->date_time)->format('Y-m-d\TH:i');
             $this->location = $event->location;
             $this->category = $event->category;
         }
     }
 
-    /**
-     * buat submit form create dan edit
-     */
-    public function save()
+    public function save(EventService $service)
     {
         $this->validate();
 
@@ -65,29 +56,18 @@ class EventForm extends Component
             'category' => $this->category,
         ];
 
-        if ($this->new_image) {
-            if ($this->event && $this->event->image_path) {
-                Storage::disk('public')->delete($this->event->image_path);
-            }
-
-            $data['image_path'] = $this->new_image->store('event-images', 'public');
-        }
-
         if ($this->event) {
-            // Mode Edit
-            $this->event->update($data);
+            // Update via Service
+            $service->update($this->event, $data, $this->new_image);
             session()->flash('success', 'Event diperbarui.');
-            return $this->redirect(route('dashboard'));
         } else {
-            // Mode Create
-            $data['user_id'] = Auth::id();
-            $event = Event::create($data);
-            
+            // Create via Service
+            $newEvent = $service->create($data, $this->new_image);
             session()->flash('success', 'Event dibuat! Silakan tambah tiket.');
-            return redirect()->route('organizer.tickets.index', $event);
+            return redirect()->route('organizer.events.tickets.index', $newEvent);
         }
 
-        return $this->redirect(route('dashboard'));
+        return redirect()->route('organizer.dashboard');
     }
 
     public function render()

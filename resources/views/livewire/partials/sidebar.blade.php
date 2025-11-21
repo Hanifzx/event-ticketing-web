@@ -18,7 +18,6 @@ new class extends Component
     <div class="h-16 flex items-center justify-center border-b border-gray-200">
         <a href="{{ route('home') }}" class="flex items-center gap-2 text-indigo-600 font-bold text-xl hover:text-indigo-800 transition">
             <x-application-logo class="block h-9 w-auto fill-current" />
-            <span>EventApp</span>
         </a>
     </div>
 

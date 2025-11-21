@@ -6,12 +6,12 @@ use App\Models\Event;
 use App\Models\Ticket;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use App\Services\Organizer\TicketService;
 
 class ManageTickets extends Component
 {
     public Event $event;
     public $tickets;
-
     public ?Ticket $editingTicket = null;
 
     #[Rule('required|string|max:255')]
@@ -32,40 +32,18 @@ class ManageTickets extends Component
     #[Rule('nullable|date|after_or_equal:sale_start_date')]
     public $sale_end_date;
 
-    /**
-     * Mount: Inisialisasi komponen, terima event, dan muat tiket
-     */
-    public function mount(Event $event)
+    public function mount(Event $event, TicketService $service)
     {
         $this->event = $event;
-        $this->loadTickets();
-        $this->resetForm();
+        $this->loadTickets($service);
     }
 
-    /**
-     * (refresh) daftar tiket untuk event ini
-     */
-    public function loadTickets()
+    public function loadTickets(TicketService $service)
     {
-        $this->tickets = $this->event->tickets()->orderBy('price')->get();
+        $this->tickets = $service->getTicketsByEvent($this->event);
     }
 
-    /**
-     * Reset form ke state default (kosong)
-     */
-    public function resetForm()
-    {
-        $this->reset(
-            'editingTicket', 'name', 'price', 'quota', 
-            'max_purchase_per_user', 'sale_start_date', 'sale_end_date'
-        );
-        $this->resetErrorBag();
-    }
-
-    /**
-     * Simpan tiket (Create atau Update)
-     */
-    public function saveTicket()
+    public function saveTicket(TicketService $service)
     {
         $this->validate();
 
@@ -79,22 +57,19 @@ class ManageTickets extends Component
         ];
 
         if ($this->editingTicket) {
-            // Mode Update
-            $this->editingTicket->update($data);
+            // Update via Service
+            $service->update($this->editingTicket, $data);
             session()->flash('success_ticket', 'Tiket berhasil diperbarui.');
         } else {
-            // Mode Create
-            $this->event->tickets()->create($data);
+            // Create via Service
+            $service->create($this->event, $data);
             session()->flash('success_ticket', 'Tiket baru berhasil ditambahkan.');
         }
 
-        $this->loadTickets(); 
-        $this->resetForm();  
+        $this->loadTickets($service);
+        $this->resetForm();
     }
 
-    /**
-     * Muat data tiket ke form untuk diedit
-     */
     public function editTicket(Ticket $ticket)
     {
         $this->resetErrorBag();
@@ -107,14 +82,21 @@ class ManageTickets extends Component
         $this->sale_end_date = $ticket->sale_end_date ? $ticket->sale_end_date->format('Y-m-d\TH:i') : null;
     }
 
-    /**
-     * Hapus tiket
-     */
-    public function deleteTicket(Ticket $ticket)
+    public function deleteTicket(Ticket $ticket, TicketService $service)
     {
-        $ticket->delete();
-        $this->loadTickets();
+        // Otorisasi sederhana
+        if($ticket->event_id !== $this->event->id) {
+            abort(403);
+        }
+
+        $service->delete($ticket);
+        $this->loadTickets($service);
         session()->flash('success_ticket', 'Tiket berhasil dihapus.');
+    }
+
+    public function resetForm()
+    {
+        $this->reset('editingTicket', 'name', 'price', 'quota', 'max_purchase_per_user', 'sale_start_date', 'sale_end_date');
     }
 
     public function render()

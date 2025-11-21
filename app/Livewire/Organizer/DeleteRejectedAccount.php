@@ -2,26 +2,14 @@
 
 namespace App\Livewire\Organizer;
 
-use App\Models\User;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-
+use App\Services\Organizer\AccountService;
 
 class DeleteRejectedAccount extends Component
 {
-    public function deleteAccount()
+    public function deleteAccount(AccountService $service)
     {
-        $userId = Auth::id();
-
-        Auth::guard('web')->logout();
-        Session::invalidate();
-        Session::regenerateToken();
-
-        if ($userId) {
-            User::destroy($userId);
-        }
-
+        $service->deleteRejectedAccount();
         return redirect('/');
     }
 

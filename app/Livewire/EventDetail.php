@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Event;
 use Livewire\Component;
+use App\Services\Event\CatalogService; 
 
 class EventDetail extends Component
 {
@@ -14,9 +15,9 @@ class EventDetail extends Component
         $this->event = $event;
     }
 
-    public function render()
+    public function render(CatalogService $service)
     {
-        $tickets = $this->event->tickets;
+        $tickets = $service->getEventTickets($this->event);
 
         return view('livewire.public.events.detail', [
             'tickets' => $tickets

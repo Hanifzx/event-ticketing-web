@@ -3,28 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Services\Auth\RedirectService;
 
 class HomeController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function index()
+    protected $redirectService;
+
+    // Inject Service
+    public function __construct(RedirectService $redirectService)
     {
-        $role = Auth::user()->role;
+        $this->redirectService = $redirectService;
+    }
 
-        if ($role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } 
+    public function index(Request $request): RedirectResponse
+    {
+        // Panggil logika dari service
+        $targetRoute = $this->redirectService->getHomeRoute($request->user());
         
-        if ($role === 'organizer') {
-            if (Auth::user()->status === 'pending') {
-                return redirect()->route('organizer.pending');
-            }
-            return redirect()->route('organizer.dashboard');
-        } 
-
-        return redirect()->route('home');
+        return redirect()->route($targetRoute);
     }
 }
