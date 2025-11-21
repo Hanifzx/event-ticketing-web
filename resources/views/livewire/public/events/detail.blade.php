@@ -55,7 +55,7 @@
                                             <p class="text-xs text-gray-500">Sisa Kuota: {{ $ticket->quota }}</p>
                                         </div>
                                         <span class="text-indigo-600 font-bold">
-                                            Rp {{ number_format($ticket->price, 0, ',', '.') }}
+                                            {{ format_currency($ticket->price) }}
                                         </span>
                                     </div>
                                     

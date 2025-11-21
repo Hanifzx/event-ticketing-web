@@ -28,7 +28,8 @@
                     
                     <td class="px-6 py-4 text-sm text-gray-500">{{ $event->user->name ?? 'N/A' }}</td>
                     
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $event->date_time }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500"> {{ format_date($event->date_time) }}</td>
+
                     <td class="px-6 py-4 text-right text-sm font-medium">
                         
                         <button wire:click="delete({{ $event->id }})" 
