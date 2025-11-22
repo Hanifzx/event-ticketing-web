@@ -5,6 +5,6 @@
         </h2>
     </x-slot>
 
-    @livewire('event-detail', ['event' => $event])
+    @livewire('public.events.detail', ['event' => $event])
 
 </x-app-layout>

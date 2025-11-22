@@ -18,7 +18,7 @@
                             
                             {{-- Tanggal & Waktu --}}
                             <p class="text-sm text-gray-600 mb-2">
-                                📅 {{ \Carbon\Carbon::parse($event->date_time)->format('D, d M Y - H:i') }} WITA
+                                {{ format_date($event->date_time, 'D, d M Y') }} - {{ format_time($event->date_time) }} WITA
                             </p>
                             
                             {{-- Lokasi --}}

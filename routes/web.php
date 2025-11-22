@@ -21,6 +21,7 @@ use App\Http\Controllers\Organizer\StatusController as OrganizerStatus;
 
 // Namespace User
 use App\Http\Controllers\User\DashboardController as UserDashboard;
+use App\Http\Controllers\User\BookTicketController as UserBookTicket;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,8 +120,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('user')
         ->name('user.')
         ->group(function () {
-            Route::get('/dashboard', [UserDashboard::class, 'index'])->name('dashboard');
+            Route::get('/dashboard', [UserDashboard::class, 'index'])
+                ->name('dashboard');
             // Tambahkan route booking history di sini nanti
+
+            // Route Booking Tiket (Checkout Page)
+            Route::get('/events/{event}/book', [UserBookTicket::class, 'create'])
+                ->name('events.book.ticket');
         });
 
 });

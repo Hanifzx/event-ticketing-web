@@ -30,7 +30,7 @@
                 
                 <div class="flex items-center text-gray-600 mt-4">
                      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                     <span class="font-medium">{{ \Carbon\Carbon::parse($event->date_time)->format('l, d F Y • H:i') }}</span>
+                     {{ format_date($event->date_time) }} • {{ format_time($event->date_time) }} WITA
                 </div>
                 
                 <div class="flex items-center mt-2">
@@ -43,34 +43,27 @@
             {{-- Kolom Kanan: Daftar Tiket --}}
             <div class="md:col-span-1">
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 sticky top-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Pilih Tiket</h3>
-                    
-                    @if($tickets->count() > 0)
-                        <div class="space-y-4">
-                            @foreach($tickets as $ticket)
-                                <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 hover:border-indigo-300 transition">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <div>
-                                            <h4 class="font-bold text-gray-800">{{ $ticket->name }}</h4>
-                                            <p class="text-xs text-gray-500">Sisa Kuota: {{ $ticket->quota }}</p>
-                                        </div>
-                                        <span class="text-indigo-600 font-bold">
-                                            {{ format_currency($ticket->price) }}
-                                        </span>
-                                    </div>
-                                    
-                                    {{-- Tombol Booking --}}
-                                    <button 
-                                        class="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
-                                        @if($ticket->quota <= 0) disabled @endif
-                                    >
-                                        {{ $ticket->quota > 0 ? 'Pesan Sekarang' : 'Habis' }}
-                                    </button>
-                                </div>
-                            @endforeach
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Beli Tiket</h3>
+
+                    @if($cheapestTicket)
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200">
+                            <p class="text-sm text-gray-600 mb-2">Mulai dari</p>
+
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xl font-bold text-indigo-600">
+                                    {{ format_rupiah($cheapestTicket->price) }}
+                                </span>
+                            </div>
+
+                            <a href="{{ route('user.events.book.ticket', $event->id) }}"
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded transition">
+                                Pesan Sekarang
+                            </a>
                         </div>
                     @else
-                        <p class="text-gray-500 text-sm text-center py-4">Belum ada tiket tersedia untuk acara ini.</p>
+                        <p class="text-gray-500 text-sm text-center py-4">
+                            Belum ada tiket tersedia untuk acara ini.
+                        </p>
                     @endif
                 </div>
             </div>

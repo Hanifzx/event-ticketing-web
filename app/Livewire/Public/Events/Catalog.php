@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Public\Events;
 
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Services\Event\CatalogService;
 
-class EventCatalog extends Component
+class Catalog extends Component
 {
     #[Url]
     public $search = '';
