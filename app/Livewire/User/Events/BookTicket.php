@@ -64,8 +64,7 @@ class BookTicket extends Component
             // 3. Feedback Sukses & Redirect
             session()->flash('message', 'Tiket berhasil dipesan!');
 
-            // Ganti route ini sesuai kebutuhan, misal ke booking history
-            return $this->redirect(route('home'), navigate: true);
+            return $this->redirect(route('user.bookings.show', $booking->id), navigate: true);
 
         } catch (\Exception $e) {
             // Handle error jika kuota tiba-tiba habis saat transaksi

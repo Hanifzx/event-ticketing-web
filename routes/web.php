@@ -18,10 +18,12 @@ use App\Http\Controllers\Organizer\DashboardController as OrganizerDashboard;
 use App\Http\Controllers\Organizer\EventController as OrganizerEvent;
 use App\Http\Controllers\Organizer\TicketController as OrganizerTicket;
 use App\Http\Controllers\Organizer\StatusController as OrganizerStatus;
+use App\Http\Controllers\Organizer\BookingController as OrganizerBooking;
 
 // Namespace User
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\User\BookTicketController as UserBookTicket;
+use App\Http\Controllers\User\BookingController as UserBooking;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +96,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Status Pages (Pending / Rejected)
             Route::get('/pending', [OrganizerStatus::class, 'pending'])->name('pending');
             Route::get('/rejected', [OrganizerStatus::class, 'rejected'])->name('rejected');
+            Route::get('/bookings', [OrganizerBooking::class, 'index'])->name('bookings.index');
 
             // Dashboard Utama
             Route::get('/dashboard', [OrganizerDashboard::class, 'index'])->name('dashboard');
@@ -127,6 +130,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Route Booking Tiket (Checkout Page)
             Route::get('/events/{event}/checkout', [UserBookTicket::class, 'create'])
                 ->name('events.book.ticket');
+                
+            // Halaman List Riwayat Pesanan
+            Route::get('/bookings', [UserBooking::class, 'index'])
+                ->name('bookings.index');
+
+            // Route Detail Booking Tiket
+            Route::get('/bookings/{booking}', [UserBooking::class, 'show'])
+                ->name('bookings.show');
+
         });
 
 });

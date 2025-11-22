@@ -125,6 +125,10 @@ new class extends Component
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+                            <x-dropdown-link :href="route('user.bookings.index')" wire:navigate>
+                                {{ __('Pesanan') }}
+                            </x-dropdown-link>
+
                             <button wire:click="logout" class="w-full text-start">
                                 <x-dropdown-link>
                                     {{ __('Log Out') }}

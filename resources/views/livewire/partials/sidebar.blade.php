@@ -56,6 +56,10 @@ new class extends Component
             <x-nav-link :href="route('organizer.events.create')" :active="request()->routeIs('organizer.events.create')" class="w-full justify-start">
                 {{ __('Create Event') }}
             </x-nav-link>
+
+            <x-nav-link :href="route('organizer.bookings.index')" :active="request()->routeIs('organizer.bookings.index')" class="w-full justify-start">
+                {{ __('Ticket Orders') }}
+            </x-nav-link>
             
         @endif
 
