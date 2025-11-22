@@ -5,7 +5,7 @@
             <div class_alias="mb-6 text-center">
                 <h1 class="text-4xl font-bold mb-4">Temukan Event Menarik</h1>
             </div>
-            @livewire('event-catalog')
+            @livewire('public.events.catalog')
         </div>
     </div>
 </x-app-layout>

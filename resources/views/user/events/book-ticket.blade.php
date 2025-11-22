@@ -1,14 +1,30 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Booking Confirmation') }}
+            {{ __('Pilih Tiket') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <!-- Memanggil Livewire Component dengan parameter ticket -->
-            <livewire:user.events.book-ticket :ticket="$ticket" />
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            
+            <div class="mb-8 text-center">
+                <h1 class="text-3xl font-bold text-gray-900">{{ $event->name }}</h1>
+                <p class="text-gray-500 mt-2">{{ format_date($event->date_time) }} di {{ $event->location }}</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @forelse($event->tickets as $ticket)
+                    
+                    <livewire:user.events.book-ticket :ticket="$ticket" :key="$ticket->id" />
+                    
+                @empty
+                    <div class="col-span-2 text-center py-10 bg-white rounded-lg shadow">
+                        <p class="text-gray-500">Belum ada tiket yang tersedia untuk event ini.</p>
+                    </div>
+                @endforelse
+            </div>
+
         </div>
     </div>
 </x-app-layout>

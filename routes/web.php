@@ -125,7 +125,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Tambahkan route booking history di sini nanti
 
             // Route Booking Tiket (Checkout Page)
-            Route::get('/events/{event}/book', [UserBookTicket::class, 'create'])
+            Route::get('/events/{event}/checkout', [UserBookTicket::class, 'create'])
                 ->name('events.book.ticket');
         });
 

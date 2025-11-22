@@ -10,36 +10,35 @@ use Illuminate\Support\Facades\Auth;
 class BookTicket extends Component
 {
     public Ticket $ticket;
-    public int $quantity = 1;
-    public float $totalPrice = 0;
+    public $quantity = 1;
 
     // Lifecycle Hook: Dijalankan saat komponen dimuat
     public function mount(Ticket $ticket)
     {
         $this->ticket = $ticket;
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
 
     // Lifecycle Hook: Dijalankan setiap kali properti $quantity berubah
-    public function updatedQuantity()
-    {
-        // Validasi realtime agar tidak minus
-        if ($this->quantity < 1) {
-            $this->quantity = 1;
-        }
+    // public function updatedQuantity()
+    // {
+    //     // Validasi realtime agar tidak minus
+    //     if ($this->quantity < 1) {
+    //         $this->quantity = 1;
+    //     }
 
-        // Validasi agar tidak melebihi kuota
-        if ($this->quantity > $this->ticket->quota) {
-            $this->quantity = $this->ticket->quota;
-        }
+    //     // Validasi agar tidak melebihi kuota
+    //     if ($this->quantity > $this->ticket->quota) {
+    //         $this->quantity = $this->ticket->quota;
+    //     }
 
-        $this->calculateTotal();
-    }
+    //     $this->calculateTotal();
+    // }
 
-    public function calculateTotal()
-    {
-        $this->totalPrice = $this->ticket->price * $this->quantity;
-    }
+    // public function calculateTotal()
+    // {
+    //     $this->totalPrice = $this->ticket->price * $this->quantity;
+    // }
 
     // Action: Saat tombol "Pesan Sekarang" ditekan
     public function book(BookingService $bookingService)

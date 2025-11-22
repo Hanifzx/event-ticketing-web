@@ -4,20 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class BookTicketController extends Controller
 {
-    public function create(Event $event, Ticket $ticket)
+    public function create(Event $event)
     {
-        if ($ticket->event_id !== $event->id) {
-            abort(404);
-        }
+        $event->load('tickets');
 
         return view('user.events.book-ticket', [
             'event' => $event,
-            'ticket' => $ticket,
         ]);
     }
 }
