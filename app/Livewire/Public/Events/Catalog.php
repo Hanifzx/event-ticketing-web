@@ -7,13 +7,15 @@ use App\Services\Event\CatalogService;
 
 class Catalog extends Component
 {
-    // State Filter (Search dihapus)
+    // State Filter
+    public $search = '';
     public $category = '';
     public $location = '';
     public $month = '';
 
     // Update URL browser
     protected $queryString = [
+        'search'   => ['except' => ''],
         'category' => ['except' => ''],
         'location' => ['except' => ''],
         'month'    => ['except' => ''],
@@ -22,6 +24,7 @@ class Catalog extends Component
     public function render(CatalogService $service)
     {
         $filters = [
+            'search'   => $this->search,
             'category' => $this->category,
             'location' => $this->location,
             'month'    => $this->month,

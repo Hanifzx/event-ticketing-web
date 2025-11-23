@@ -49,7 +49,7 @@ new class extends Component
 
 <nav x-data="{ open: false }" class="bg-beige sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-16 gap-4 md:gap-6 lg:gap-8">
             {{-- === BAGIAN KIRI (LOGO DAN MAIN NAV DESKTOP) === --}}
             <div class="flex">
                 <div class="shrink-0 flex items-center">
@@ -68,17 +68,18 @@ new class extends Component
                     <x-nav-link :href="route('events.explore')" :active="request()->routeIs('events.explore')">
                         {{ __('Explore') }}
                     </x-nav-link>
-
-                    {{-- Search Bar --}}
-                    <input 
-                        wire:model="search" 
-                        wire:keydown.enter="searchEvents"
-                        type="text" 
-                        placeholder="Cari Event" 
-                        class="w-full max-w-3xl px-4 py-1 my-3 bg-beige border border-deep-blue rounded-full shadow-smp placeholder:text-sm focus:outline-none focus:ring-gray-900 focus:border-gray-900"
-                    >
-
                 </div>
+            </div>
+
+            {{-- Search Bar --}}
+            <div  class="hidden sm:flex flex-1 items-center px-4">
+                <input 
+                    wire:model="search" 
+                    wire:keydown.enter="searchEvents"
+                    type="text" 
+                    placeholder="Cari Event" 
+                    class="w-full max-w-xs px-4 py-1 my-3 bg-beige border border-deep-blue rounded-full shadow-smp placeholder:text-sm focus:outline-none focus:ring-gray-900 focus:border-gray-900"
+                >
             </div>
 
             {{-- === BAGIAN KANAN (SETTINGS & LOGIN DESKTOP) === --}}

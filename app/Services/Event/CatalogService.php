@@ -11,6 +11,13 @@ class CatalogService
     public function getFilteredEvents(array $filters): Collection
     {
         return Event::query()
+            ->when($filters['search'] ?? null, function ($query, $search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('description', 'like', '%' . $search . '%')
+                      ->orWhere('location', 'like', '%' . $search . '%');
+                });
+            })
             ->when($filters['category'] ?? null, function ($query, $category) {
                 $query->where('category', $category);
             })
