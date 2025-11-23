@@ -11,14 +11,14 @@
                     Temukan event menarik di sekitarmu dan pesan tiketnya sekarang.
                 </p>
             </div>
+            <div id="catalog-filter-target"></div>
         </div>
     </header>
 
     {{-- Main Content --}}
-    <div class="py-12 min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            {{-- Catalog Component sudah mencakup Filter (via include) dan Grid --}}
             <livewire:public.events.catalog />
 
         </div>

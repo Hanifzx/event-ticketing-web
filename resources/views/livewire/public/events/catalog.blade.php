@@ -1,7 +1,9 @@
 <div>
-    <div class="mb-8">
-        @include('livewire.partials.filter')
-    </div>
+    @teleport('#catalog-filter-target')
+        <div class="mb-8">
+            @include('livewire.partials.filter')
+        </div>
+    @endteleport
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
          wire:loading.class="opacity-50 pointer-events-none duration-200">
