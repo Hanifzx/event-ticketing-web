@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div class="header-right">
-                <span class="badge">PAID</span>
+                <span class="badge">TIKET {{ $sequence }}</span>
             </div>
         </div>
 
@@ -104,7 +104,8 @@
             <div class="info-column">
                 <div class="label">Waktu Pelaksanaan</div>
                 <div class="value">
-                    {{ \Carbon\Carbon::parse($booking->ticket->event->date_time)->format('d F Y, H:i') }} WIB
+                    {{ format_date($booking->ticket->event->date_time) }}, 
+                    {{ format_time($booking->ticket->event->date_time) }} WIB
                 </div>
 
                 <div class="label">Pemegang Tiket</div>
@@ -113,8 +114,8 @@
                 <div class="label">Jenis Tiket</div>
                 <div class="value">{{ $booking->ticket->name }}</div>
 
-                <div class="label">Booking ID</div>
-                <div class="value">#{{ $booking->id }}</div>
+                <div class="label">Kode Unik Tiket</div>
+                <div class="value">#{{ $ticketId }}</div>
             </div>
 
             <div class="qr-column">
@@ -124,7 +125,8 @@
         </div>
 
         <div class="footer">
-            Tiket ini adalah bukti pembayaran yang sah. Harap tunjukkan tiket ini saat masuk ke lokasi acara.<br>
+            Tiket {{ $sequence }} dari {{ $booking->quantity }} tiket dalam Pesanan #{{ $booking->id }}.<br>
+            Dilarang menggandakan tiket ini. Satu tiket berlaku untuk satu orang.<br>
             Dicetak pada: {{ now()->format('d M Y H:i') }}
         </div>
     </div>

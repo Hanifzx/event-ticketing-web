@@ -18,7 +18,7 @@ if (!function_exists('format_time')) {
      * Format khusus Waktu 24 Jam (Contoh: 14:30).
      */
     function format_time($date, string $format = 'H:i'): string
-    {
+    {   
         if (!$date) return '-';
         return Carbon::parse($date)->locale('id')->format($format);
     }
