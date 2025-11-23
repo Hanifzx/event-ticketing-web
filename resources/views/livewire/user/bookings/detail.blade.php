@@ -1,7 +1,5 @@
-<div class="relative min-h-screen pb-32"> {{-- ROOT ELEMENT PEMBUNGKUS UTAMA --}}
-    
-    {{-- Container Tiket dengan Jarak (Gap) --}}
-    <div class="flex flex-col gap-6">
+<div class="relative min-h-screen pb-32">
+    <div class="flex flex-col gap-6 pb-32">
         @for ($i = 1; $i <= $booking->quantity; $i++)
             @php
                 // --- LOGIC ID TIKET VIRTUAL ---
@@ -11,56 +9,77 @@
             @endphp
 
             {{-- Ticket Card --}}
-            <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
-                <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-                    <div>
-                        <p class="text-sm text-gray-500">Order ID: #{{ $booking->id }}</p>
-                        <p class="text-sm text-gray-500">{{ format_date($booking->created_at, 'd M Y, H:i') }}</p>
+            <div class="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+                {{-- Header Kartu --}}
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                    <div>   
+                        <p class="text-xs font-bold text-indigo-600 uppercase tracking-wide mb-1">Tiket #{{ $i }}</p>
+                        <p class="text-xs text-gray-500">Order ID: #{{ $booking->id }} • {{ format_date($booking->created_at, 'd M Y, H:i') }}</p>
                     </div>
                     <div>
                         @if($booking->status === 'pending')
-                            <span class="px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 animate-pulse">
-                                Menunggu Konfirmasi
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 animate-pulse">
+                                Menunggu Pembayaran
                             </span>
                         @elseif($booking->status === 'approved')
-                            <span class="px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Approved (Siap Digunakan)
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Telah dibayar
                             </span>
                         @elseif($booking->status === 'rejected')
-                            <span class="px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                 Dibatalkan
                             </span>
                         @endif
                     </div>
                 </div>
 
-                {{-- Detail Event & Tiket --}}
+                {{-- Body Kartu --}}
                 <div class="p-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ $booking->ticket->event->name }}</h2>
-                    <p class="text-gray-600 mb-6 flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        {{ $booking->ticket->event->location }}
-                    </p>
+                    <div class="flex flex-col md:flex-row gap-6">
+                        
+                        {{-- Bagian Kiri: Info Event --}}
+                        <div class="flex-1">
+                            <h2 class="text-xl font-bold text-gray-900">{{ $booking->ticket->event->name }}</h2>
+                            <p class="text-gray-600 text-sm flex items-center mt-2 mb-4">
+                                <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                {{ $booking->ticket->event->location }}
+                            </p>
 
-                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-600">Jenis Tiket</span>
-                            <span class="font-semibold">{{ $booking->ticket->name }}</span>
+                            <div class="bg-indigo-50/50 rounded-lg border border-indigo-100 p-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase mb-1">Jenis Tiket</p>
+                                        <p class="font-semibold text-gray-900">{{ $booking->ticket->name }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase mb-1">Kode Unik</p>
+                                        <p class="font-mono font-bold text-indigo-700 tracking-wider text-sm">
+                                            {{ $ticketId }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-600">ID Unik Tiket</span>
-                            <span class="font-mono font-bold text-indigo-600 tracking-wider bg-indigo-50 px-2 rounded">
-                                {{ $ticketId }}
-                            </span>
+
+                        {{-- Bagian Kanan: QR Code --}}
+                        <div class="flex flex-col items-center justify-center border-l border-gray-100 pl-6 md:w-48">
+                            @if($booking->status === 'approved')
+                                {{-- Generate QR Code Langsung di View --}}
+                                <div class="p-2 bg-white border border-gray-200 rounded-lg">
+                                    {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(100)->generate($ticketId) !!}
+                                </div>
+                                <p class="text-[10px] text-gray-400 mt-2 text-center">Scan untuk Validasi</p>
+                            @else
+                                <div class="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-xs text-center p-2">
+                                    QR Code belum tersedia
+                                </div>
+                            @endif
                         </div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-600">Harga Satuan</span>
-                            <span>{{ format_rupiah($booking->ticket->price) }}</span>
-                        </div>
-                        {{-- Total Bayar hanya perlu ditampilkan sekali (opsional per card) atau cukup di footer --}}
+
                     </div>
                 </div>
             </div>
+            {{-- END: Satu Kartu Tiket --}}
         @endfor
     </div>
 
@@ -68,7 +87,6 @@
     <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 p-4 shadow-[0_-5px_15px_rgba(0,0,0,0.1)] z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             
-            {{-- Info Total (Agar user ingat total bayar) --}}
             <div class="hidden md:block">
                 <p class="text-sm text-gray-500">Total Pembayaran</p>
                 <p class="text-xl font-bold text-indigo-600">{{ format_rupiah($booking->total_price) }}</p>
@@ -91,4 +109,4 @@
         </div>
     </div>
 
-</div> {{-- END ROOT ELEMENT --}}
+</div>
