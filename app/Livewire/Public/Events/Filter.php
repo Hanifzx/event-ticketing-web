@@ -5,33 +5,30 @@ namespace App\Livewire\Public\Events;
 use Livewire\Component;
 use App\Services\Event\CatalogService;
 
-class Catalog extends Component
+class Filter extends Component
 {
-    // State Filter (Langsung di sini agar realtime)
+    // State
     public $search = '';
     public $category = '';
     public $location = '';
     public $month = '';
 
-    // Update URL browser
-    protected $queryString = [
-        'search'   => ['except' => ''],
-        'category' => ['except' => ''],
-        'location' => ['except' => ''],
-        'month'    => ['except' => ''],
-    ];
-
-    public function render(CatalogService $service)
+    // Hook: Jalan setiap kali ada input berubah
+    public function updated()
     {
-        $filters = [
+        // Kirim data ke Catalog
+        $this->dispatch('update-filters', [
             'search'   => $this->search,
             'category' => $this->category,
             'location' => $this->location,
             'month'    => $this->month,
-        ];
+        ]);
+    }
 
-        return view('livewire.public.events.catalog', [
-            'events'     => $service->getFilteredEvents($filters),
+    public function render(CatalogService $service)
+    {
+        // Data dropdown diambil dari Service
+        return view('livewire.partials.filter', [
             'locations'  => $service->getUniqueLocations(),
             'categories' => $service->getCategories(),
             'months'     => [

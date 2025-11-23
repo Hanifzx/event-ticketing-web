@@ -3,38 +3,43 @@
 namespace App\Services\Event;
 
 use App\Models\Event;
+use App\Livewire\Organizer\EventForm;
 use Illuminate\Database\Eloquent\Collection;
 
 class CatalogService
 {
-    public function getPublicEvents(string $search = ''): Collection
+    public function getFilteredEvents(array $filters): Collection
     {
-        $query = Event::query()
-            ->whereHas('user', function ($q) {
-                $q->where('role', 'organizer')
-                    ->where('status', 'approved');
+        return Event::query()
+            ->when($filters['search'] ?? null, function ($query, $search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('description', 'like', '%' . $search . '%');
+                });
             })
-            ->where('date_time', '>=', now())
-            ->orderBy('date_time', 'asc');
-
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('location', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
-            });
-        }
-
-        return $query->get();
+            ->when($filters['category'] ?? null, function ($query, $category) {
+                $query->where('category', $category);
+            })
+            ->when($filters['location'] ?? null, function ($query, $location) {
+                $query->where('location', 'like', '%' . $location . '%');
+            })
+            ->when($filters['month'] ?? null, function ($query, $month) {
+                $query->whereMonth('date_time', $month);
+            })
+            ->orderBy('date_time', 'asc')
+            ->get();
     }
 
-    /**
-     * Mengambil tiket untuk detail event (Public).
-     */
-    public function getEventTickets(Event $event): Collection
+    public function getUniqueLocations()
     {
-        return $event->tickets()
-            ->orderBy('price', 'asc')
-            ->get();
+        return Event::select('location')
+            ->distinct()
+            ->whereNotNull('location')
+            ->pluck('location');
+    }
+
+    public function getCategories(): array
+    {
+        return EventForm::CATEGORIES;
     }
 }

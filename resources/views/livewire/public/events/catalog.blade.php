@@ -1,50 +1,60 @@
-<div class="container mx-auto px-4 py-4">
+<div>
+    <div class="mb-8">
+        @include('livewire.partials.filter')
+    </div>
 
-    @if($events->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach ($events as $event)
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+    <div wire:loading class="w-full text-center py-4">
+        <span class="text-indigo-600 text-sm font-medium">Memuat data event...</span>
+    </div>
+
+    <div wire:loading.remove class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @forelse($events as $event)
+            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden border border-gray-100 flex flex-col h-full">
+                <div class="relative h-48">
+                    <img src="{{ $event->image_path ? asset('storage/' . $event->image_path) : 'https://via.placeholder.com/400x200' }}" 
+                         alt="{{ $event->name }}" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-3 left-3">
+                        <span class="bg-white/90 backdrop-blur-sm text-indigo-700 text-xs px-2 py-1 rounded-md font-bold uppercase tracking-wider shadow-sm">
+                            {{ $event->category }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-5 flex-1 flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                        <a href="{{ route('event.show', $event->id) }}" class="hover:text-indigo-600 transition">
+                            {{ $event->name }}
+                        </a>
+                    </h3>
                     
-                    <a href="{{ route('event.show', $event) }}" wire:navigate>
-                        
-                        {{-- Gambar Event --}}
-                        <img src="{{ $event->image_path ? asset('storage/' . $event->image_path) : 'https://via.placeholder.com/400x250.png?text=Event+Image' }}" 
-                                alt="{{ $event->name }}" 
-                                class_alias="w-full h-48 object-cover">
-                        
-                        <div class="p-6">
-                            {{-- Nama Event --}}
-                            <h3 class="text-xl font-bold text-gray-900 mb-2 truncate">{{ $event->name }}</h3>
-                            
-                            {{-- Tanggal & Waktu --}}
-                            <p class="text-sm text-gray-600 mb-2">
-                                {{ format_date($event->date_time, 'D, d M Y') }} - {{ format_time($event->date_time) }} WITA
+                    <p class="text-gray-600 text-sm line-clamp-2 mb-4 flex-1">
+                        {{ $event->description }}
+                    </p>
+
+                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-bold text-gray-900">
+                                {{ \Carbon\Carbon::parse($event->date_time)->format('d M Y') }}
                             </p>
-                            
-                            {{-- Lokasi --}}
-                            <p class="text-sm text-gray-600 mb-4">
-                                📍 {{ $event->location }}
-                            </p>
-                            
-                            {{-- Nama Organizer --}}
-                            <p class="text-sm font-semibold text-gray-700">
-                                Diselenggarakan oleh: {{ $event->user->name }}
+                            <p class="text-xs text-gray-500">
+                                {{ \Carbon\Carbon::parse($event->date_time)->format('H:i') }} WIB
                             </p>
                         </div>
-                    </a>
+                        <a href="{{ route('event.show', $event->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+                            Detail &rarr;
+                        </a>
+                    </div>
                 </div>
-            @endforeach
-        </div>
-    @else
-        <div class="text-center py-16">
-            <h2 class="text-2xl font-semibold text-gray-600">
-                @if(empty($search))
-                    Belum ada event yang tersedia saat ini.
-                @else
-                    Event dengan kata kunci '{{ $search }}' tidak ditemukan.
-                @endif
-            </h2>
-        </div>
-    @endif
-
+            </div>
+        @empty
+            <div class="col-span-full py-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada event ditemukan</h3>
+                <p class="mt-1 text-sm text-gray-500">Coba ubah filter pencarian Anda.</p>
+            </div>
+        @endforelse
+    </div>
 </div>
