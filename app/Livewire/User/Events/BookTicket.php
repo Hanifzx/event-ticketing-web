@@ -11,41 +11,26 @@ class BookTicket extends Component
 {
     public Ticket $ticket;
     public $quantity = 1;
+    public $maxLimit;
 
     // Lifecycle Hook: Dijalankan saat komponen dimuat
     public function mount(Ticket $ticket)
     {
         $this->ticket = $ticket;
-        // $this->calculateTotal();
+
+        $organizerLimit = $this->ticket->max_purchase_per_user > 0 
+            ? $this->ticket->max_purchase_per_user 
+            : 999;
+        
+        $this->maxLimit = min($organizerLimit, $this->ticket->quota);
     }
-
-    // Lifecycle Hook: Dijalankan setiap kali properti $quantity berubah
-    // public function updatedQuantity()
-    // {
-    //     // Validasi realtime agar tidak minus
-    //     if ($this->quantity < 1) {
-    //         $this->quantity = 1;
-    //     }
-
-    //     // Validasi agar tidak melebihi kuota
-    //     if ($this->quantity > $this->ticket->quota) {
-    //         $this->quantity = $this->ticket->quota;
-    //     }
-
-    //     $this->calculateTotal();
-    // }
-
-    // public function calculateTotal()
-    // {
-    //     $this->totalPrice = $this->ticket->price * $this->quantity;
-    // }
 
     // Action: Saat tombol "Pesan Sekarang" ditekan
     public function book(BookingService $bookingService)
     {
         // 1. Validasi Input Dasar
         $this->validate([
-            'quantity' => ['required', 'integer', 'min:1', 'max:' . $this->ticket->quota],
+            'quantity' => ['required', 'integer', 'min:1', 'max:' . $this->maxLimit],
         ]);
 
         // Cek Login
