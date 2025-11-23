@@ -139,6 +139,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/bookings/{booking}', [UserBooking::class, 'show'])
                 ->name('bookings.show');
 
+            // Route Download PDF Tiket
+            Route::get('/bookings/{booking}/download-ticket', [UserBooking::class, 'downloadTicket'])
+                ->name('bookings.download');
+
         });
 
 });
