@@ -1,15 +1,6 @@
 <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         
-        <div class="relative">
-            <input 
-                wire:model.live.debounce.300ms="search" 
-                type="text" 
-                placeholder="Cari event..." 
-                class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-            >
-        </div>
-
         <select wire:model.live="category" class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
             <option value="">Semua Kategori</option>
             @foreach($categories as $cat)
