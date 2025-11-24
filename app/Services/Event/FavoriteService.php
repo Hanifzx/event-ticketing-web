@@ -25,4 +25,12 @@ class FavoriteService
             return true;
         }
     }
+
+    public function getUserFavorites(User $user)
+    {
+        return $user->favorites()
+            ->with('event') 
+            ->latest()
+            ->paginate(9);
+    }
 }

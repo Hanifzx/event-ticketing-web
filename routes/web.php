@@ -24,6 +24,7 @@ use App\Http\Controllers\Organizer\BookingController as OrganizerBooking;
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\User\BookTicketController as UserBookTicket;
 use App\Http\Controllers\User\BookingController as UserBooking;
+use App\Http\Controllers\User\FavoriteController as UserFavorite;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +143,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Route Download PDF Tiket
             Route::get('/bookings/{booking}/download-ticket', [UserBooking::class, 'downloadTickets'])
                 ->name('bookings.download');
+
+            Route::get('/favorites', [UserFavorite::class, 'index'])
+                ->name('favorites.index');
 
         });
 

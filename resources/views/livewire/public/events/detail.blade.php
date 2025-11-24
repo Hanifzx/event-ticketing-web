@@ -65,6 +65,11 @@
                             Belum ada tiket tersedia untuk acara ini.
                         </p>
                     @endif
+
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <livewire:public.events.favorite-button :event="$event" />
+                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -130,6 +130,10 @@ new class extends Component
                                 {{ __('Pesanan') }}
                             </x-dropdown-link>
 
+                            <x-dropdown-link :href="route('user.favorites.index')" wire:navigate>
+                                {{ __('Favorite') }}
+                            </x-dropdown-link>
+
                             <button wire:click="logout" class="w-full text-start">
                                 <x-dropdown-link>
                                     {{ __('Log Out') }}
@@ -200,6 +204,14 @@ new class extends Component
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('user.bookings.index')" wire:navigate>
+                    {{ __('Pesanan') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('user.favorites.index')" wire:navigate>
+                    {{ __('Favorite') }}
                 </x-responsive-nav-link>
 
                 <button wire:click="logout" class="w-full text-start">

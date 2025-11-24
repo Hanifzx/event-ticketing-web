@@ -29,6 +29,9 @@ class FavoriteButton extends Component
 
         // 2. Logic User -> Panggil Service
         $this->isFavorite = $service->toggle(Auth::user(), $this->event);
+
+        // Kirim sinyal global bahwa favorit telah berubah
+        $this->dispatch('favorite-updated');
     }
 
     public function render()
