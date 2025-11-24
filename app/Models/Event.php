@@ -47,4 +47,14 @@ class Event extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    /**
+     * Helper untuk cek status
+     */
+    
+    public function isFavoritedBy(?User $user)
+    {
+        if (!$user) return false;
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
 }

@@ -28,6 +28,10 @@
                             {{ $event->category }}
                         </span>
                     </div>
+
+                    <div class="absolute top-3 right-3 z-10">
+                        <livewire:public.events.favorite-button :event="$event" wire:key="fav-btn-{{ $event->id }}" />
+                    </div>
                 </div>
                 
                 <div class="p-5 flex flex-col flex-1">
