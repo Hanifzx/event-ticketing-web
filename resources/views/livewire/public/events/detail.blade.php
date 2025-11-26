@@ -36,6 +36,8 @@
                     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
                         {{ $event->name }}
                     </h1>
+                    {{-- Tombol Favorite --}}
+                    <livewire:public.events.favorite-button :event="$event" />
                 </div>
 
                 {{-- Organizer  --}}
