@@ -1,13 +1,13 @@
 <x-base-layout title="Explore Events">
     <livewire:partials.navbar />
 
-    <header class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <header class="bg-beige shadow-sm">
+        <div class="max-w-7xl mx-auto pt-5 pb-4 px-4 sm:px-6 lg:px-8">
             <div class="mb-6">
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+                <h1 class="text-3xl lg:text-4xl font-bold text-deep-blue">
                     Jelajahi Semua Event
                 </h1>
-                <p class="mt-2 text-lg text-gray-600">
+                <p class="mt-2 text-md md:text-lg text-deep-blue">
                     Temukan event menarik di sekitarmu dan pesan tiketnya sekarang.
                 </p>
             </div>
@@ -16,7 +16,7 @@
     </header>
 
     {{-- Main Content --}}
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-beige">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <livewire:public.events.catalog />

@@ -34,6 +34,10 @@ html {
     color: #fc563c;
 }
 
+.hover\:text-oranye:hover {
+    color: #fc563c;
+}
+
 .text-deep-blue {
     color: #172a39;
 }
