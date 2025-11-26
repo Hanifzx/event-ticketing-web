@@ -6,11 +6,11 @@
             <button 
                 @click="open = !open"
                 class="w-full flex justify-between items-center 
-                       border border-[#172a39] px-4 py-2 rounded-full shadow-sm text-left">
+                       border border-[#172a39] px-4 py-2 rounded-full shadow-sm text-left leading-none">
                 <span class="text-sm md:text-md">
                     {{ $category ?: 'Semua Kategori' }}
                 </span>
-                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                           d="M19 9l-7 7-7-7" />
                 </svg>
@@ -47,11 +47,11 @@
             <button 
                 @click="open = !open"
                 class="w-full flex justify-between items-center 
-                       border border-[#172a39] px-4 py-2 rounded-full shadow-sm text-left">
+                       border border-[#172a39] px-4 py-2 rounded-full shadow-sm text-left leading-none">
                 <span class="text-sm md:text-md">
                     {{ $location ?: 'Semua Lokasi' }}
                 </span>
-                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                           d="M19 9l-7 7-7-7" />
                 </svg>
@@ -85,11 +85,11 @@
             <button 
                 @click="open = !open"
                 class="w-full flex justify-between items-center bg-beige 
-                       border border-[#172a39] px-4 py-2 rounded-full shadow-sm text-left text-sm md:text-md">
+                       border border-[#172a39] px-4 py-2 rounded-full shadow-sm text-left text-sm md:text-md leading-none">
                 <span>
                     {{ $month ? $months[$month] : 'Semua Bulan' }}
                 </span>
-                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                           d="M19 9l-7 7-7-7" />
                 </svg>
