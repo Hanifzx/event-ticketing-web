@@ -7,7 +7,6 @@
 
     <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
 
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +19,7 @@
     
     @stack('styles')
 </head>
-<body class="antialiased bg-beige text-deep-blue">
+<body class="antialiased text-deep-blue">
     
     {{ $slot }}
 
