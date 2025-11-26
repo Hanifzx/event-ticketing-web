@@ -1,4 +1,4 @@
-<div class="space-y-10"> {{-- Jarak antar 2 section utama --}}
+<div class="space-y-10">
 
     {{-- BAGIAN 1: MENUNGGU KONFIRMASI --}}
     @if($pendingBookings->isNotEmpty())

@@ -1,8 +1,9 @@
     <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
         {{-- Header info --}}
         <div class="mb-6 border-b pb-4">
-            <h1 class="text-2xl font-bold text-gray-900">{{ $ticket->event->name ?? 'Event Name' }}</h1>
-            <p class="text-gray-600 mt-1">Tiket: <span class="font-semibold">{{ $ticket->name }}</span></p>
+            <h1 class="text-2xl font-semibold text-gray-900">
+                Tiket: <span class="font-bold">{{ $ticket->name }}</span>
+            </h1>
         </div>
 
         {{-- WRAPPER ALPINE JS --}}
@@ -15,7 +16,7 @@
             <div class="flex justify-between items-center mb-6 bg-gray-50 p-4 rounded">
                 <div>
                     <p class="text-sm text-gray-500">Harga Satuan</p>
-                    <p class="text-lg font-bold text-indigo-600">
+                    <p class="text-lg font-bold text-black">
                         Rp {{ number_format($ticket->price, 0, ',', '.') }}
                     </p>
                 </div>
@@ -64,15 +65,19 @@
 
                     <div class="flex justify-between items-center border-t pt-4 mb-6">
                         <span class="text-lg font-semibold text-gray-800">Total Pembayaran:</span>
-                        <span class="text-2xl font-bold text-indigo-700">
+                        <span class="text-2xl font-bold text-black">
                             Rp <span x-text="(qty * price).toLocaleString('id-ID')"></span>
                         </span>
                     </div>
 
-                    <x-primary-button class="w-full justify-center py-3 text-base" wire:loading.attr="disabled">
+                    <x-confirm-button 
+                        action="book" 
+                        class="w-full justify-center py-3 text-base bg-oranye"
+                        title="Konfirmasi Pemesanan"
+                        message="Pastikan jumlah dan jenis tiket sudah benar. Lanjutkan pembayaran?">
                         <span wire:loading.remove>Konfirmasi Pemesanan</span>
-                        <span wire:loading>Memproses Transaksi...</span>
-                    </x-primary-button>
+                        <span wire:loading>Memproses...</span>
+                    </x-confirm-button>
                 </form>
             @else
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">

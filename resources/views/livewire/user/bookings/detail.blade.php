@@ -13,12 +13,12 @@
                 {{-- Header Kartu --}}
                 <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
                     <div>   
-                        <p class="text-xs font-bold text-indigo-600 uppercase tracking-wide mb-1">Tiket #{{ $i }}</p>
+                        <p class="text-xs font-bold text-oranye uppercase tracking-wide mb-1">Tiket #{{ $i }}</p>
                         <p class="text-xs text-gray-500">Order ID: #{{ $booking->id }} • {{ format_date($booking->created_at, 'd M Y, H:i') }}</p>
                     </div>
                     <div>
                         @if($booking->status === 'pending')
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 animate-pulse">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#e4482e]/10 text-oranye animate-pulse">
                                 Menunggu Pembayaran
                             </span>
                         @elseif($booking->status === 'approved')
@@ -49,11 +49,11 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <p class="text-xs text-gray-500 uppercase mb-1">Jenis Tiket</p>
-                                        <p class="font-semibold text-gray-900">{{ $booking->ticket->name }}</p>
+                                        <p class="font-bold text-gray-900">{{ $booking->ticket->name }}</p>
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-500 uppercase mb-1">Kode Unik</p>
-                                        <p class="font-mono font-bold text-indigo-700 tracking-wider text-sm">
+                                        <p class="font-mono font-bold    tracking-wider text-sm">
                                             {{ $ticketId }}
                                         </p>
                                     </div>
@@ -89,12 +89,12 @@
             
             <div class="hidden md:block">
                 <p class="text-sm text-gray-500">Total Pembayaran</p>
-                <p class="text-xl font-bold text-indigo-600">{{ format_rupiah($booking->total_price) }}</p>
+                <p class="text-xl font-bold text-oranye">{{ format_rupiah($booking->total_price) }}</p>
             </div>
 
             <div class="w-full md:w-auto">
                 @if($booking->status === 'pending')
-                    <a href="{{ route('home') }}" wire:navigate class="block w-full text-center px-6 py-3 bg-white border border-gray-300 rounded-md font-semibold text-gray-700 hover:bg-gray-50">
+                    <a href="{{ route('home') }}" wire:navigate class="block w-full text-center px-6 py-3 bg-oranye border border-oranye rounded-md font-semibold text-sm text-white hover:bg-[#e4482e]">
                         Kembali ke Beranda
                     </a>
                 @elseif($booking->status === 'approved')

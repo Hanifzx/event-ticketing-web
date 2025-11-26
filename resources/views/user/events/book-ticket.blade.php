@@ -1,16 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Pilih Tiket') }}
-        </h2>
-    </x-slot>
-
+<x-app-layout title="Tiket untuk {{ $event->name }} | Olinevent">
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             
             <div class="mb-8 text-center">
                 <h1 class="text-3xl font-bold text-gray-900">{{ $event->name }}</h1>
-                <p class="text-gray-500 mt-2">{{ format_date($event->date_time) }} di {{ $event->location }}</p>
+                <p class="text-gray-600 mt-2">{{ format_date($event->date_time) }} di {{ $event->location }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
