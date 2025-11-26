@@ -1,5 +1,5 @@
-<div class="relative min-h-screen pb-32">
-    <div class="flex flex-col gap-6 pb-32">
+<div class="relative min-h-screen">
+    <div class="flex flex-col gap-6">
         @for ($i = 1; $i <= $booking->quantity; $i++)
             @php
                 // --- LOGIC ID TIKET VIRTUAL ---
@@ -22,7 +22,7 @@
                                 Menunggu Pembayaran
                             </span>
                         @elseif($booking->status === 'approved')
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full text-oranye">
                                 Telah dibayar
                             </span>
                         @elseif($booking->status === 'rejected')
@@ -98,7 +98,7 @@
                         Kembali ke Beranda
                     </a>
                 @elseif($booking->status === 'approved')
-                    <a href="{{ route('user.bookings.download', $booking->id) }}" target="_blank" class="flex items-center justify-center w-full px-6 py-3 bg-indigo-600 text-white rounded-md font-semibold hover:bg-indigo-700 transition shadow-lg">
+                    <a href="{{ route('user.bookings.download', $booking->id) }}" target="_blank" class="flex items-center justify-center w-full px-6 py-3 bg-oranye text-white rounded-md font-semibold hover:bg-[#e4482e] transition shadow-lg">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                         </svg>
