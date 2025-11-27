@@ -1,12 +1,12 @@
-<x-base-layout title="Welcome">
+<x-base-layout title="Olinevent | Beli Tiket Event Online Mudah & Cepat">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-beige">
-        <div clas="bg-white">
-            <a href="/" wire:navigate>
+        {{-- <div clas="bg-beige">
+            <a href="/" class="mt-4">
                 <x-application-logo class="w-26 h-26 fill-current" />
             </a>
-        </div>
+        </div> --}}
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="w-full sm:max-w-md px-6 overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
     </div>

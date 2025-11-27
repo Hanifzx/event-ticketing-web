@@ -180,7 +180,7 @@ new class extends Component
             
             {{-- Kerjasama Dengan Kami (Filtered) --}}
             @if (!Auth::check() || (Auth::user()->role !== 'admin' && Auth::user()->role !== 'organizer'))
-                <x-responsive-nav-link :href="route('organizer.register')" :active="request()->routeIs('organizer.register')" class="text-blue-600">
+                <x-responsive-nav-link :href="route('organizer.register')" :active="request()->routeIs('organizer.register')" >
                     {{ __('Kerjasama Dengan Kami') }}
                 </x-responsive-nav-link>
             @endif

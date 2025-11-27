@@ -1,4 +1,4 @@
-<x-base-layout :title="$title ?? 'Dashboard'">
+<x-base-layout :title="$title ?? 'OEM | Olinevent'">
     <div class="flex h-screen overflow-hidden" x-data="{ sidebarOpen: false }">
         
         <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-gray-900/80 z-40 md:hidden"></div>

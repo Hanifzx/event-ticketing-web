@@ -24,48 +24,81 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form wire:submit="login">
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+<div class="min-h-screen flex flex-col justify-center items-center bg-beige sm:pt-0">
+    
+    {{-- Card Container --}}
+    <div class="w-full sm:max-w-md px-8 py-10 bg-white shadow-none sm:shadow-xl overflow-hidden sm:rounded-3xl border-0 sm:border border-gray-100">
+        <a href="/" class="text-center mb-4">
+            <x-application-logo class="w-26 h-26 fill-current" />
+        </a>
+        {{-- Header --}}
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+                Selamat Datang
+            </h2>
+            <p class="mt-2 text-sm text-gray-500">
+                Masuk ke akun Olinevent Anda
+            </p>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <x-auth-session-status class="mb-6" :status="session('status')" />
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+        <form wire:submit="login">
+            <div class="mb-5">
+                <x-input-label for="email" :value="__('Alamat Email')" class="text-gray-700 font-bold text-xs uppercase tracking-wider" />
+                <x-text-input wire:model="form.email" id="email" 
+                    class="block mt-2 w-full rounded-xl border-gray-300 focus:border-[#fc563c] focus:ring-[#fc563c] py-3 transition-shadow shadow-sm placeholder:text-gray-300" 
+                    type="email" 
+                    name="email" 
+                    required autofocus autocomplete="username" 
+                    placeholder="nama@email.com" />
+                <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+            </div>
 
-            <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
-        </div>
+            <div class="mb-6">
+                <x-input-label for="password" :value="__('Password')" class="text-gray-700 font-bold text-xs uppercase tracking-wider" />
+                
+                <x-text-input wire:model="form.password" id="password" 
+                    class="block mt-2 w-full rounded-xl border-gray-300 focus:border-[#fc563c] focus:ring-[#fc563c] py-3 transition-shadow shadow-sm placeholder:text-gray-300"
+                    type="password" 
+                    name="password" 
+                    required autocomplete="current-password" 
+                    placeholder="••••••••" />
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+                <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+            <div class="flex items-center justify-between mb-8">
+                <label for="remember" class="inline-flex items-center cursor-pointer">
+                    <input wire:model="form.remember" id="remember" type="checkbox" 
+                        class="rounded border-gray-300 text-[#fc563c] shadow-sm focus:ring-[#fc563c]/50 cursor-pointer" 
+                        name="remember">
+                    <span class="ms-2 text-sm text-gray-600">{{ __('Ingat saya') }}</span>
+                </label>
 
-            <x-primary-button class="ms-3 ">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+                @if (Route::has('password.request'))
+                    <a class="text-sm font-semibold text-[#fc563c] hover:text-[#e4482e] hover:underline transition-colors" 
+                       href="{{ route('password.request') }}">
+                        {{ __('Lupa password?') }}
+                    </a>
+                @endif
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <x-primary-button class="w-full justify-center py-3.5 text-base font-bold !bg-[#fc563c] hover:bg-[#e4482e] active:bg-[#d63f25] focus:ring-[#fc563c] rounded-xl shadow-lg shadow-orange-200 transition-all duration-200 transform hover:-translate-y-0.5">
+                    {{ __('Masuk Sekarang') }}
+                </x-primary-button>
+                
+                {{-- Opsi Daftar --}}
+                <div class="text-center mt-2">
+                    <p class="text-sm text-gray-500">
+                        Belum punya akun? 
+                        <a href="{{ route('register') }}" class="font-bold text-[#fc563c] hover:text-[#e4482e] hover:underline">
+                            Daftar disini
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

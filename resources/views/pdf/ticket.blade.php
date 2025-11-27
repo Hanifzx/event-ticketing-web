@@ -15,7 +15,7 @@
             position: relative;
         }
         .header {
-            border-bottom: 2px solid #4f46e5;
+            border-bottom: 2px solid #fc563c;
             padding-bottom: 10px;
             margin-bottom: 20px;
             display: table;

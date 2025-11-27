@@ -18,7 +18,6 @@ class EventForm extends Component
         'Music',
         'Arts',
         'Sports',
-        'Food',
         'Business',
         'Technology',
         'Other'

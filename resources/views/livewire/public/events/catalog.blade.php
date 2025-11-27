@@ -102,7 +102,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <h3 class="text-md font-semibold text-[#172a39]-800">Tidak ada event. Coba Refresh halaman.</h3>
+                <h3 class="text-md font-semibold text-[#172a39]-800">Tidak ada event yang tersedia</h3>
             </div>
         @endforelse
     </div>

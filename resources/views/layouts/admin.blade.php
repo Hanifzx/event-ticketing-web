@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Admin | Olinevent">
     <x-slot name="header">
         <div class="flex flex-row items-center justify-between gap-4">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
