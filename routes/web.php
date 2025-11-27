@@ -44,11 +44,9 @@ Route::get('/event/{event}', function (Event $event) {
 })->name('event.show');
 
 // Registrasi Khusus Organizer
-Route::middleware('guest')->group(function () {
-    Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
-        ->name('organizer.register');
-    Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store']);
-});
+Route::get('/register-organizer', [OrganizerRegistrationController::class, 'create'])
+    ->name('organizer.register');   
+Route::post('/register-organizer', [OrganizerRegistrationController::class, 'store']);
 
 /*
 |--------------------------------------------------------------------------
