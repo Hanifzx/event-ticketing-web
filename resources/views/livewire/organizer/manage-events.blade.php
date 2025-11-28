@@ -172,7 +172,7 @@
             </div>
         </div>
 
-        {{-- PAGINATION (Jika diperlukan nanti tinggal uncomment) --}}
+        {{-- PAGINATION --}}
         {{-- <div class="mt-4">
             {{ $events->links() }}
         </div> --}}
