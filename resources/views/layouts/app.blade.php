@@ -17,5 +17,7 @@
         {{-- <footer>
             {{ $slot }}
         </footer> --}}
+
+        <x-flash-message />
     </div>
 </x-base-layout>

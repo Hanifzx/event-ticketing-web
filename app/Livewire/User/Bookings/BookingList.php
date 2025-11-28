@@ -4,25 +4,37 @@ namespace App\Livewire\User\Bookings;
 
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Event\BookingService;
 use Livewire\Component;
 
 class BookingList extends Component
 {
-    public function cancelBooking($id)
+    public function cancelBooking($id, BookingService $bookingService)
     {
         $booking = Booking::where('user_id', Auth::id())
             ->where('id', $id)
             ->first();
 
-        // Validasi: Hanya bisa hapus jika status masih pending
-        if ($booking && $booking->status === 'pending') {
-            
-            // kembalikan Kuota Tiket
-            $booking->ticket->increment('quota', $booking->quantity);
+        if (!$booking) {
+            $this->dispatch('flash-message', type: 'error', message: 'Pesanan tidak ditemukan.');
+            return;
+        }
 
-            $booking->delete();
+        try {
+            $bookingService->cancelBooking($booking);
 
-            session()->flash('message', 'Pesanan berhasil dibatalkan.');
+            // Kirim Notifikasi Sukses
+            $this->dispatch('flash-message', 
+                type: 'success', 
+                message: 'Pesanan berhasil dibatalkan. Kuota tiket telah dikembalikan.'
+            );
+
+        } catch (\Exception $e) {
+            // Tangkap Error dari Service
+            $this->dispatch('flash-message', 
+                type: 'error', 
+                message: $e->getMessage()
+            );
         }
     }
 

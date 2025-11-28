@@ -50,7 +50,7 @@
                                 id="quantity"
                                 min="1"
                                 max="{{ $maxLimit }}"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc563c] focus:ring-[#fc563c] sm:text-sm p-2.5"
                             >
                         </div>
                         
@@ -71,12 +71,11 @@
                     </div>
 
                     <x-confirm-button 
-                        action="book" 
-                        class="w-full justify-center py-3 text-base bg-oranye"
+                        action="book()" 
+                        class="w-full justify-center py-3 text-base !bg-[#fc563c] hover:bg-[#e4482e] transition-all duration-200 transform hover:-translate-y-0.5"
                         title="Konfirmasi Pemesanan"
                         message="Pastikan jumlah dan jenis tiket sudah benar. Lanjutkan pembayaran?">
-                        <span wire:loading.remove>Konfirmasi Pemesanan</span>
-                        <span wire:loading>Memproses...</span>
+                        <span>Konfirmasi Pemesanan</span>
                     </x-confirm-button>
                 </form>
             @else

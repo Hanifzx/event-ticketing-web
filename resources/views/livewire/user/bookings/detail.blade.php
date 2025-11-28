@@ -1,5 +1,5 @@
 <div class="relative min-h-screen">
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 mb-16">
         @for ($i = 1; $i <= $booking->quantity; $i++)
             @php
                 // --- LOGIC ID TIKET VIRTUAL ---
@@ -27,7 +27,7 @@
                             </span>
                         @elseif($booking->status === 'rejected')
                             <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                Dibatalkan
+                                Pembayaran Gagal
                             </span>
                         @endif
                     </div>

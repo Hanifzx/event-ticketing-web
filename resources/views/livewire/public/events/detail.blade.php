@@ -122,7 +122,7 @@
 
                         <div class="flex justify-center">
                             <a href="{{ route('user.events.book.ticket', $event->id) }}" 
-                               class="block w-3/4 bg-oranye hover:bg-[#ff8b00]/100 text-white text-center text-md font-bold py-4 px-5 transition-all duration-200 shadow-lg hover:shadow-gray-400 transform hover:-translate-y-0.5">
+                                class="block w-3/4 bg-[#fc563c] hover:bg-[#e4482e] text-white text-center text-base font-bold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-orange-200 hover:shadow-orange-300 transform hover:-translate-y-0.5">
                                 Beli Tiket Sekarang
                             </a>
                         </div>

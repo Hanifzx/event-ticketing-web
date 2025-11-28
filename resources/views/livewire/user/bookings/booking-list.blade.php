@@ -30,7 +30,7 @@
                 @forelse($historyBookings as $booking)
                     @include('livewire.user.bookings.partials.booking-item', ['booking' => $booking])
                 @empty
-                    <li class="px-4 py-8 text-center text-gray-500">
+                    <li class=" bg-beige border-none px-4 py-8 text-center text-gray-500">
                         Belum ada riwayat Pembelian tiket.
                     </li>
                 @endforelse

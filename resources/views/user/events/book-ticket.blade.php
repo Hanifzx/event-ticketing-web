@@ -7,7 +7,7 @@
                 <p class="text-gray-600 mt-2">{{ format_date($event->date_time) }} di {{ $event->location }}</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-wrap justify-center items-start gap-6">
                 @forelse($event->tickets as $ticket)
                     
                     <livewire:user.events.book-ticket :ticket="$ticket" :key="$ticket->id" />

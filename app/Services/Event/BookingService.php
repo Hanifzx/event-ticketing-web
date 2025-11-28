@@ -44,4 +44,30 @@ class BookingService
             return $booking;
         });
     }
+
+    public function cancelBooking(Booking $booking)
+    {
+        // 1. Validasi Status
+        if ($booking->status !== 'pending') {
+            throw new Exception("Hanya pesanan dengan status 'pending' yang dapat dibatalkan.");
+        }
+
+        // 2. Bungkus dengan Transaksi Database
+        return DB::transaction(function () use ($booking) {
+            
+            // A. Kembalikan Kuota Tiket
+            $ticket = Ticket::where('id', $booking->ticket_id)->lockForUpdate()->first();
+            
+            if ($ticket) {
+                $ticket->increment('quota', $booking->quantity);
+            }
+
+            // Ubah Status Booking
+            $booking->update([
+                'status' => 'cancelled'
+            ]);
+
+            return $booking;
+        });
+    }
 }

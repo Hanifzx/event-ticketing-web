@@ -1,6 +1,6 @@
 <div>
     <button wire:click="toggle" 
-            class="group relative flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-200 focus:outline-none"
+            class="group relative flex flex-col items-center justify-center w-12 h-12 rounded-full active:scale-95 transition-all duration-200 focus:outline-none"
             title="{{ $isFavorite ? 'Hapus dari Favorit' : 'Tambah ke Favorit' }}">
         
     <svg xmlns="http://www.w3.org/2000/svg" 

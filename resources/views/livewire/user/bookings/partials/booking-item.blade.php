@@ -13,9 +13,9 @@
 
                 {{-- STATUS BADGE --}}
                 @if($booking->status !== 'pending')
-                    <span class=" py-1 inline-flex text-xs leading-5 font-semibold rounded-full
-                        {{ $booking->status === 'approved' ? 'text-oranye' : 'bg-red-100 text-red-800' }}">
-                        {{ $booking->status === 'approved' ? 'Pembayaran Berhasil' : 'Pembayaran Gagal' }}  
+                    <span class=" py-1 px-3 inline-flex text-xs leading-5 font-semibold rounded-full
+                        {{ $booking->status === 'approved' ? 'text-oranye' : ' text-red-800' }}">
+                        {{ $booking->status === 'approved' ? 'Pembayaran Berhasil' : 'Dibatalkan' }}  
                     </span>
                 @endif
             </div>
