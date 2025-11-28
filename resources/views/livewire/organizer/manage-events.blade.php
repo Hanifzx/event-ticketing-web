@@ -8,7 +8,7 @@
                 <p class="text-sm text-gray-500 mt-1">Kelola jadwal, tiket, dan pantau penjualan event Anda.</p>
             </div>
             
-            <a href="{{ route('organizer.events.create') }}" class="inline-flex items-center px-5 py-2.5 bg-[#fc563c] hover:bg-[#e4482e] text-white text-sm font-bold rounded-xl shadow-lg shadow-orange-200 transition-all duration-200 transform hover:-translate-y-0.5">
+            <a href="{{ route('organizer.events.create') }}" class="inline-flex items-center px-5 py-2.5 bg-oranye hover:bg-[#e4482e] text-white text-sm font-bold rounded-xl shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -29,7 +29,7 @@
                             <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Informasi Event</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Statistik Penjualan</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Status Tiket</th>
-                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Kelola Event</th>
                         </tr>
                     </thead>
 
@@ -77,17 +77,17 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-center gap-3">
                                         <div class="text-center">
-                                            <span class="block text-lg font-bold text-green-600">{{ $soldCount }}</span>
+                                            <span class="block text-lg font-bold text-green-800">{{ $soldCount }}</span>
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wide">Terjual</span>
                                         </div>
                                         <div class="w-px h-8 bg-gray-200"></div>
                                         <div class="text-center">
-                                            <span class="block text-lg font-bold text-yellow-600">{{ $pendingCount }}</span>
+                                            <span class="block text-lg font-bold text-yellow-800">{{ $pendingCount }}</span>
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wide">Pending</span>
                                         </div>
                                         <div class="w-px h-8 bg-gray-200"></div>
                                         <div class="text-center">
-                                            <span class="block text-lg font-bold text-red-500">{{ $cancelledCount }}</span>
+                                            <span class="block text-lg font-bold text-red-800">{{ $cancelledCount }}</span>
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wide">Batal</span>
                                         </div>
                                     </div>
@@ -112,32 +112,41 @@
                                     <div class="flex items-center justify-end gap-2">
                                         
                                         {{-- Tombol Manage Ticket --}}
-                                        <a href="{{ route('organizer.events.tickets.index', $event) }}" 
-                                           class="p-2 text-gray-500 bg-white border border-gray-200 rounded-lg hover:border-[#fc563c] hover:text-[#fc563c] transition-all duration-200" 
-                                           title="Kelola Tiket">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
-                                        </a>
+                                        <div class="flex flex-col items-center justify-center">
+                                            <p class="text-[12px] text-center font-md text-gray-500">Tiket</p>
+                                            <a href="{{ route('organizer.events.tickets.index', $event) }}" 
+                                               class="p-2 text-gray-500 bg-white border border-gray-200 rounded-lg hover:border-[#fc563c] hover:text-[#fc563c] transition-all duration-200" 
+                                               title="Kelola Tiket">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+                                            </a>
+                                        </div>
 
                                         {{-- Tombol Edit --}}
-                                        <a href="{{ route('organizer.events.edit', $event) }}" 
-                                           class="p-2 text-gray-500 bg-white border border-gray-200 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-all duration-200" 
-                                           title="Edit Event">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                        </a>
+                                        <div class="flex flex-col items-center justify-center">
+                                            <p class="text-[12px] text-center font-md text-gray-500">Edit</p>
+                                            <a href="{{ route('organizer.events.edit', $event) }}" 
+                                               class="p-2 text-gray-500 bg-white border border-gray-200 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-all duration-200" 
+                                               title="Edit Event">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                            </a>
+                                        </div>
 
                                         {{-- Tombol Hapus --}}
-                                        <x-confirm-button 
-                                            action="delete({{ $event->id }})"
-                                            title="Hapus Event?"
-                                            message="Yakin hapus event {{ $event->name }}? Data tidak bisa dikembalikan."
-                                            confirmText="Hapus"
-                                            cancelText="Batal"
-                                            class="!bg-transparent w-0 p-auto ml-4 !focus:ring-0"
-                                        >
-                                            <div class="p-2 text-red-600 !bg-white border rounded-lg hover:border-red-500 hover:text-red-400 transition-all duration-200 cursor-pointer" title="Hapus">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </div>
-                                        </x-confirm-button>
+                                        <div class="flex flex-col items-center justify-center">
+                                            <p class="text-[12px] text-center font-md text-gray-500 mb-1">Hapus</p>
+                                            <x-confirm-button 
+                                                action="delete({{ $event->id }})"
+                                                title="Hapus Event?"
+                                                message="Yakin hapus event {{ $event->name }}? Data tidak bisa dikembalikan."
+                                                confirmText="Hapus"
+                                                cancelText="Batal"
+                                                class="!bg-transparent w-0 h-0 pt-3 !focus:ring-0"
+                                            >
+                                                <div class="p-2 text-red-600 !bg-white border rounded-lg hover:border-red-500 hover:text-red-400 focus:ring-0 transition-all duration-200 cursor-pointer" title="Hapus">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </div>
+                                            </x-confirm-button>
+                                        </div>
 
                                     </div>
                                 </td>

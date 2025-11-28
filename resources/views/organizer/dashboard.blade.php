@@ -1,4 +1,4 @@
-<x-dashboard-layout title="Organizer Dashboard">
+<x-dashboard-layout title="OEM Dashboard | Olinevent">
     <div class="bg-beige overflow-hidden">
         <div class=" text-gray-900">
             <livewire:organizer.manage-events />

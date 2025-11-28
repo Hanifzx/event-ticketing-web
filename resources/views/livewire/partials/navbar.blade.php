@@ -40,8 +40,8 @@ new class extends Component
         if (!Auth::check()) return 'Login';
 
         return match (Auth::user()->role) {
-            'admin' => 'Admin Panel',
-            'organizer' => 'Organizer Center',
+            'admin' => 'Admin Center',
+            'organizer' => 'OEM Center',
             default => null,
         };
     }
@@ -88,7 +88,7 @@ new class extends Component
                 @auth
                     @if(Auth::user()->role === 'admin' || Auth::user()->role === 'organizer')
                         <x-nav-link :href="$this->getDashboardRoute()" :active="request()->routeIs(['admin.dashboard', 'organizer.dashboard'])"
-                            class="font-bold text-indigo-600">
+                            class="font-bold px-3 py-1 text-oranye text-center rounded-lg border hover:border-oranye !hover:text-[#fc563c] transition duration-150 ease-in-out">
                             {{ $this->getDashboardLabel() }}
                         </x-nav-link>
                     @endif
