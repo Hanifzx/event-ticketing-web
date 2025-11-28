@@ -59,15 +59,20 @@ class ManageTickets extends Component
         if ($this->editingTicket) {
             // Update via Service
             $service->update($this->editingTicket, $data);
-            session()->flash('success_ticket', 'Tiket berhasil diperbarui.');
+            $message = 'Tiket berhasil diperbarui!';
         } else {
             // Create via Service
             $service->create($this->event, $data);
-            session()->flash('success_ticket', 'Tiket baru berhasil ditambahkan.');
+            $message = 'Tiket baru berhasil ditambahkan!';
         }
 
         $this->loadTickets($service);
         $this->resetForm();
+
+        $this->dispatch('flash-message', 
+            type: 'success', 
+            message: $message
+        );
     }
 
     public function editTicket(Ticket $ticket)
