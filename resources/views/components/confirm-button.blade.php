@@ -9,7 +9,7 @@
 <div x-data="{ open: false }" class="w-full">
     
     {{-- 1. TRIGGER BUTTON --}}
-    <x-primary-button type="button" 
+    <x-primary-button type="button"
                       @click="open = true" 
                       {{ $attributes->merge(['class' => 'hover:bg-[#e4482e] focus:bg-[#e4482e] active:bg-[#e4482e] focus:ring-[#e4482e] w-full justify-center']) }}>
         {{ $slot }}
@@ -63,7 +63,7 @@
                                 {{ $title }}
                             </h3>
                             <div class="mt-2">
-                                <p class="text-sm text-gray-500">
+                                <p class="text-sm text-gray-500 whitespace-normal break-words">
                                     {{ $message }}
                                 </p>
                             </div>

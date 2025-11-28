@@ -21,10 +21,21 @@ class ManageEvents extends Component
              abort(403, 'Unauthorized');
         }
 
-        $service->delete($event);
-        
-        // Tidak perlu $this->loadEvents() karena render otomatis refresh data
-        session()->flash('success', 'Event berhasil dihapus.');
+        try {
+            $service->delete($event);
+            
+            // Dispatch agar flash message muncul tanpa reload halaman
+            $this->dispatch('flash-message', 
+                type: 'success', 
+                message: 'Event ' . $event->name . ' berhasil dihapus.'
+            );
+
+        } catch (\Exception $e) {
+            $this->dispatch('flash-message', 
+                type: 'error', 
+                message: 'Gagal menghapus event: ' . $e->getMessage()
+            );
+        }
     }
 
     // Inject Service langsung di method render

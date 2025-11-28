@@ -1,7 +1,6 @@
 <x-dashboard-layout title="Organizer Dashboard">
-    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <div class="p-6 text-gray-900">
-            <h3 class="font-bold text-lg mb-4">Your Events</h3>
+    <div class="bg-beige overflow-hidden">
+        <div class=" text-gray-900">
             <livewire:organizer.manage-events />
         </div>
     </div>
