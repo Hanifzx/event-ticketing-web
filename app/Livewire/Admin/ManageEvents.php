@@ -5,33 +5,40 @@ namespace App\Livewire\Admin;
 use App\Models\Event;
 use Livewire\Component;
 use App\Services\Admin\EventService;
+use Livewire\WithPagination;
 
 class ManageEvents extends Component
 {
-    public $events;
+    use WithPagination;
 
-    public function mount(EventService $service)
-    {
-        $this->loadEvents($service);
-    }
-
-    public function loadEvents(EventService $service)
-    {
-        // Mengambil data via Service
-        $this->events = $service->getAllEvents();
-    }
+    // public function mount(EventService $service)
+    // {
+    //     $this->loadEvents($service);
+    // }
 
     public function delete(Event $event, EventService $service)
     {
         // Delegate logika penghapusan ke Service
-        $service->deleteEvent($event);
-        
-        $this->loadEvents($service);
-        session()->flash('success', 'Event berhasil dihapus.');
+        try {
+            $service->deleteEvent($event);
+            
+            $this->dispatch('flash-message', 
+                type: 'success', 
+                message: 'Event ' . $event->name . ' berhasil dihapus.'
+            );
+
+        } catch (\Exception $e) {
+            $this->dispatch('flash-message', 
+                type: 'error', 
+                message: 'Gagal menghapus event ' . $e->getMessage()
+            );
+        }
     }
 
-    public function render()
+    public function render(EventService $service)
     {
-        return view('livewire.admin.manage-events');
+        return view('livewire.admin.manage-events', [
+            'events' => $service->getPaginatedEvents(10) 
+        ]);
     }
 }

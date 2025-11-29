@@ -12,7 +12,9 @@ class TicketController extends Controller
     public function index(Event $event): View
     {
         // Validasi Kepemilikan
-        abort_if($event->user_id !== Auth::id(), 403, 'Unauthorized action.');
+        if ($event->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action');
+        }
 
         return view('organizer.events.tickets', compact('event'));
     }

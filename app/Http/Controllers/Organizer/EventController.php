@@ -17,7 +17,9 @@ class EventController extends Controller
     public function edit(Event $event): View
     {
         // Validasi Kepemilikan (Otorisasi Ringan)
-        abort_if($event->user_id !== Auth::id(), 403, 'Unauthorized action.');
+        if ($event->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action');
+        }
 
         return view('organizer.events.edit', compact('event'));
     }

@@ -11,6 +11,10 @@ class EventService
 {
     public function getMyEvents(): Collection
     {
+        if (Auth::user()->role === 'admin') {
+            return Event::orderBy('date_time', 'desc')->get();
+        }
+
         return Event::where('user_id', Auth::id())
             ->orderBy('date_time', 'desc')
             ->get();
@@ -30,6 +34,10 @@ class EventService
 
     public function update(Event $event, array $data, $image = null): bool
     {
+        if ($event->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            return false;
+        }
+
         if ($image) {
             // Hapus gambar lama jika ada
             if ($event->image_path) {
@@ -43,7 +51,7 @@ class EventService
 
     public function delete(Event $event): bool
     {
-        if ($event->user_id !== Auth::id()) {
+        if ($event->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
             return false;
         }
 

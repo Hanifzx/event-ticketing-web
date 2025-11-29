@@ -16,31 +16,39 @@ class OrganizerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 'organizer') {
-            return redirect()->route('dashboard');
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        $status = Auth::user()->status;
+        $user = Auth::user();
 
-        if ($status === 'pending') {
-            if ($request->routeIs('organizer.pending')) {
-                return $next($request);
-            }
-            return redirect()->route('organizer.pending');
+        if ($user->role !== 'organizer' && $user->role !== 'admin') {
+            return redirect()->route('dashboard'); 
         }
 
-        if ($status === 'rejected') {
-            if ($request->routeIs('organizer.rejected')) {
-                return $next($request);
-            }
-            return redirect()->route('organizer.rejected');
-        }
+        if ($user->role === 'organizer') {
+            
+            $status = $user->status;
 
-        if ($status === 'approved') {
-            if ($request->routeIs('organizer.pending') || $request->routeIs('organizer.rejected')) {
-                return redirect()->route('organizer.dashboard');
+            if ($status === 'pending') {
+                if ($request->routeIs('organizer.pending')) {
+                    return $next($request);
+                }
+                return redirect()->route('organizer.pending');
             }
-            return $next($request);
+
+            if ($status === 'rejected') {
+                if ($request->routeIs('organizer.rejected')) {
+                    return $next($request);
+                }
+                return redirect()->route('organizer.rejected');
+            }
+
+            if ($status === 'approved') {
+                if ($request->routeIs('organizer.pending') || $request->routeIs('organizer.rejected')) {
+                    return redirect()->route('organizer.dashboard');
+                }
+            }
         }
 
         return $next($request);

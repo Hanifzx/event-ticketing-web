@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\OrganizerRegistrationController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\EventController as AdminEvent;
+use App\Http\Controllers\Admin\BookingController as AdminBooking;
 
 // Namespace Organizer
 use App\Http\Controllers\Organizer\DashboardController as OrganizerDashboard;
@@ -74,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
             Route::get('/users', [AdminUser::class, 'index'])->name('users.index');
             Route::get('/events', [AdminEvent::class, 'index'])->name('events.index');
+            Route::get('/bookings', [AdminBooking::class, 'index'])->name('bookings.index');
         });
 
     /*
