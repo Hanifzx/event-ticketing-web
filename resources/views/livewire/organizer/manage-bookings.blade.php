@@ -86,9 +86,9 @@
                                 </td>
 
                                 {{-- Aksi --}}
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                     @if($booking->status === 'pending')
-                                        <div class="flex items-center justify-end gap-2">
+                                        <div class="flex items-center justify-center">
                                             
                                             {{-- Tombol Reject --}}
                                             <x-confirm-button 
@@ -97,24 +97,12 @@
                                                 message="Apakah Anda yakin ingin menolak pesanan ini?"
                                                 confirmText="Tolak Pesanan"
                                                 cancelText="Batal"
-                                                class="!bg-transparent w-0 h-0 pt-3 !focus:ring-0"
+                                                class="!bg-transparent w-0 h-0 pt-3"
                                             >
                                                 <div class="p-2 text-red-600 !bg-white border rounded-lg hover:border-red-500 hover:text-red-400 focus:ring-0 transition-all duration-200 cursor-pointer" title="Tolak">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                 </div>
                                             </x-confirm-button>
-
-                                            {{-- <x-confirm-button 
-                                                action="reject({{ $booking->id }})"
-                                                title="Tolak Pesanan?"
-                                                message="Apakah Anda yakin ingin menolak pesanan ini? Kuota tiket akan dikembalikan."
-                                                confirmText="Tolak Pesanan"
-                                                cancelText="Batal"
-                                            >
-                                                <button class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors" title="Tolak">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                                </button>
-                                            </x-confirm-button> --}}
 
                                             {{-- Tombol Approve --}}
                                             <x-confirm-button 
@@ -123,28 +111,16 @@
                                                 message="Pastikan pembayaran sudah diterima sebelum menyetujui pesanan ini?"
                                                 confirmText="Setujui"
                                                 cancelText="Batal"
-                                                class="!bg-transparent w-0 h-0 pt-3 !focus:ring-0"
+                                                class="!bg-transparent w-0 h-0 pt-3"
                                             >
                                                 <div class="p-2 text-green-500 !bg-white border rounded-lg hover:border-green-500 hover:text-green-400 !focus:ring-green-500 transition-all duration-200 cursor-pointer" title="Setujui">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                                 </div>
                                             </x-confirm-button>
-
-                                            {{-- <x-confirm-button 
-                                                action="approve({{ $booking->id }})"
-                                                title="Setujui Pesanan?"
-                                                message="Pastikan pembayaran sudah diterima sebelum menyetujui pesanan ini."
-                                                confirmText="Setujui"
-                                                cancelText="Batal"
-                                            >
-                                                <button class="p-2 text-green-500 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors" title="Setujui">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                                </button>
-                                            </x-confirm-button> --}}
                                             
                                         </div>
                                     @else
-                                        <span class="text-xs text-gray-400 italic">Selesai</span>
+                                        <span class="text-xs text-center text-gray-400 italic">Selesai</span>
                                     @endif
                                 </td>
                             </tr>

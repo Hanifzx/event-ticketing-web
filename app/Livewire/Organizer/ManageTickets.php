@@ -17,7 +17,7 @@ class ManageTickets extends Component
     #[Rule('required|string|max:255')]
     public $name = '';
 
-    #[Rule('required|string|max:500')]
+    #[Rule('required|string|max:125')]
     public $description = '';
     
     #[Rule('required|numeric|min:1')]

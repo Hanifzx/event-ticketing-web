@@ -3,7 +3,7 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             
             <div class="mb-8 text-center">
-                <h1 class="text-3xl font-bold text-gray-900">{{ $event->name }}</h1>
+                <h1 class="text-2xl font-bold text-gray-900">{{ $event->name }}</h1>
                 <p class="text-gray-600 mt-2">{{ format_date($event->date_time) }} di {{ $event->location }}</p>
             </div>
 
