@@ -22,7 +22,10 @@ class CatalogService
                 $query->where('category', $category);
             })
             ->when($filters['location'] ?? null, function ($query, $location) {
-                $query->where('location', 'like', '%' . $location . '%');
+                $query->where(function($q) use ($location) {
+                    $q->where('location', 'LIKE', '%' . $location)
+                      ->orWhere('location', 'LIKE', '%' . $location . '.');
+                });
             })
             ->when($filters['month'] ?? null, function ($query, $month) {
                 $query->whereMonth('date_time', $month);
@@ -33,10 +36,21 @@ class CatalogService
 
     public function getUniqueLocations()
     {
-        return Event::select('location')
-            ->distinct()
-            ->whereNotNull('location')
-            ->pluck('location');
+        $rawLocations = Event::whereNotNull('location')->pluck('location');
+
+        return $rawLocations->map(function ($fullAddress) {
+            $cleanAddress = rtrim($fullAddress, '.');
+
+            $parts = explode(',', $cleanAddress);
+
+            $city = end($parts);
+
+            return trim($city);
+        })
+        ->filter()
+        ->unique()
+        ->sort()
+        ->values();
     }
 
     public function getCategories(): array
