@@ -21,7 +21,6 @@ use App\Http\Controllers\Organizer\StatusController as OrganizerStatus;
 use App\Http\Controllers\Organizer\BookingController as OrganizerBooking;
 
 // Namespace User
-use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\User\BookTicketController as UserBookTicket;
 use App\Http\Controllers\User\BookingController as UserBooking;
 use App\Http\Controllers\User\FavoriteController as UserFavorite;
@@ -31,7 +30,6 @@ use App\Http\Controllers\User\FavoriteController as UserFavorite;
 | PUBLIC ROUTES (Akses Publik)
 |--------------------------------------------------------------------------
 */
-
 // Halaman Depan
 Route::view('/', 'welcome')->name('home');
 
@@ -53,7 +51,6 @@ Route::post('/register-organizer', [OrganizerRegistrationController::class, 'sto
 | AUTHENTICATED ROUTES (Harus Login)
 |--------------------------------------------------------------------------
 */
-
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // 1. Pintu Masuk Utama (Redirect Logic by Service)
@@ -88,7 +85,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | Middleware: organizer
     */
     Route::middleware('organizer')
-        ->prefix('organizer')
+        ->prefix('OEM')
         ->name('organizer.')
         ->group(function () {
             
@@ -119,13 +116,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | Prefix: /user
     | Name: user.*
     */
-    Route::prefix('user')
+    Route::prefix('me')
         ->name('user.')
         ->group(function () {
-            Route::get('/dashboard', [UserDashboard::class, 'index'])
-                ->name('dashboard');
-            // Tambahkan route booking history di sini nanti
-
             // Route Booking Tiket (Checkout Page)
             Route::get('/events/{event}/checkout', [UserBookTicket::class, 'create'])
                 ->name('events.book.ticket');

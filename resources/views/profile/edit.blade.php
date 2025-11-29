@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Profile | Olinevent">
     <x-slot name="header">
         <h2 class="font-bold text-2xl text-gray-800 leading-tight">
             {{ __('Profile') }}
