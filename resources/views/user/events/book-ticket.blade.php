@@ -1,6 +1,6 @@
 <x-app-layout title="Tiket untuk {{ $event->name }} | Olinevent">
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto sm:px-6 lg:px-8">
             
             <div class="mb-8 text-center">
                 <h1 class="text-3xl font-bold text-gray-900">{{ $event->name }}</h1>

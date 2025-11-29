@@ -16,6 +16,9 @@ class ManageTickets extends Component
 
     #[Rule('required|string|max:255')]
     public $name = '';
+
+    #[Rule('required|string|max:500')]
+    public $description = '';
     
     #[Rule('required|numeric|min:1')]
     public $price = 0;
@@ -49,6 +52,7 @@ class ManageTickets extends Component
 
         $data = [
             'name' => $this->name,
+            'description' => $this->description,
             'price' => $this->price,
             'quota' => $this->quota,
             'max_purchase_per_user' => $this->max_purchase_per_user,
@@ -80,6 +84,7 @@ class ManageTickets extends Component
         $this->resetErrorBag();
         $this->editingTicket = $ticket;
         $this->name = $ticket->name;
+        $this->description = $ticket->description;
         $this->price = $ticket->price;
         $this->quota = $ticket->quota;
         $this->max_purchase_per_user = $ticket->max_purchase_per_user;
@@ -101,7 +106,7 @@ class ManageTickets extends Component
 
     public function resetForm()
     {
-        $this->reset('editingTicket', 'name', 'price', 'quota', 'max_purchase_per_user', 'sale_start_date', 'sale_end_date');
+        $this->reset('editingTicket', 'name', 'description', 'price', 'quota', 'max_purchase_per_user', 'sale_start_date', 'sale_end_date');
     }
 
     public function render()

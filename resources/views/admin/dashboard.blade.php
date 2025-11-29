@@ -5,4 +5,4 @@
             <p class="text-3xl font-bold text-indigo-600 mt-2">1,234</p>
         </div>
         </div>
-</x-dashboard-layout>
+</x-dashboard-layout>   

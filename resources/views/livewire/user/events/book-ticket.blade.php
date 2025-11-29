@@ -1,9 +1,16 @@
-    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 w-full h-full max-w-sm max-h-md">
         {{-- Header info --}}
-        <div class="mb-6 border-b pb-4">
+        <div class="flex-1 flex-col justify-start mb-6 border-b pb-3">
             <h1 class="text-2xl font-semibold text-gray-900">
                 Tiket: <span class="font-bold">{{ $ticket->name }}</span>
             </h1>
+            @if($ticket->description)
+                <p class="min-h-[2.5rem] text-xs text-gray-600 mt-2 bg-gray-50 rounded-lg border border-gray-100 leading-relaxed">
+                    {{ $ticket->description }}
+                </p>
+            @else
+                <p class="min-h-[2.5rem] text-xs text-gray-600 mt-2 italic">Tidak ada deskripsi untuk tiket ini.</p>
+            @endif
         </div>
 
         {{-- WRAPPER ALPINE JS --}}

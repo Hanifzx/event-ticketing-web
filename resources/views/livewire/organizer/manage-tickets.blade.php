@@ -36,7 +36,7 @@
             <form wire:submit="saveTicket">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
-                    {{-- Nama Tiket --}}
+                    {{-- Nama/Jenis Tiket --}}
                     <div class="md:col-span-1">
                         <x-input-label for="name" :value="__('Jenis Tiket')" class="text-gray-700 font-semibold" />
                         <x-text-input wire:model="name" id="name" 
@@ -68,6 +68,16 @@
                             class="block mt-2 w-full rounded-xl border-gray-300 focus:border-[#fc563c] focus:ring-[#fc563c] transition-shadow shadow-sm" 
                             type="number" min="1" required />
                         <x-input-error :messages="$errors->get('quota')" class="mt-2" />
+                    </div>
+
+                    {{-- Deskripsi --}}
+                    <div class="md:col-span-3">
+                        <x-input-label for="description" :value="__('Deskripsi Tiket')" class="text-gray-700 font-semibold" />
+                        <textarea wire:model="description" id="description" 
+                            class="block mt-2 w-full rounded-xl border-gray-300 focus:border-[#fc563c] focus:ring-[#fc563c] transition-shadow shadow-sm placeholder:text-gray-400"
+                            rows="4"
+                            placeholder="Contoh: Termasuk Merchandise, Akses Jalur Cepat, dll."></textarea>
+                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
 
                     {{-- Max Purchase --}}
@@ -125,12 +135,12 @@
                 <table class="min-w-full divide-y divide-gray-100">
                     <thead class="bg-white">
                         <tr>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Jenis Tiket</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Harga</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Jenis & Deskripsi</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Harga</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Kuota</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Maks. Beli</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Terjual</th>
-                            <th scope="col" class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-50">
@@ -139,9 +149,18 @@
                             $soldCount = $ticket->bookings->where('status', 'approved')->sum('quantity');
                         @endphp
                             <tr class="hover:bg-gray-50/80 transition-colors group">
-                                
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="text-sm font-semibold text-gray-700">{{ $ticket->name }}</span>
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col max-w-xs">
+                                        <span class="text-sm font-semibold text-gray-700">{{ $ticket->name }}</span>
+                                        
+                                        @if($ticket->description)
+                                            <span class="text-xs text-gray-600 mt-0.5 whitespace-normal" title="{{ $ticket->description }}">
+                                                {{ $ticket->description }}
+                                            </span>
+                                        @else
+                                            <span class="text-[10px] text-gray-400 italic mt-0.5">Tidak ada deskripsi</span>
+                                        @endif
+                                    </div>
                                 </td>
                                 
                                 <td class="px-6 py-4 whitespace-nowrap">
